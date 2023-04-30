@@ -90,6 +90,8 @@ beforeEach(() => {
         //CEC filter
         cy.get('#select2-id_weitz_cec_part-container .select2-selection__placeholder').contains('All (CEC/Non-CEC Partners)')
         cy.get('[data-cy="weitz_cec_part"]').select(this.data.cec_part3,{force:true})
+        //Apply filter
+        cy.get('[data-cy="applyfilters"]').click()
         //Report download
         cy.get('.buttons-csv').click()
         cy.get('.buttons-pdf').click()
@@ -133,6 +135,7 @@ beforeEach(() => {
         })
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
         cy.get('[data-cy="academic_year"]').select(this.data.select_all,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
         cy.get('table').contains('td',this.data.engagement_type5)
           .parent()
           .find('a[data-cy=community_count]').invoke('attr', 'target', '_self').click()
@@ -147,6 +150,7 @@ beforeEach(() => {
         })
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
         cy.get('[data-cy="academic_year"]').select(this.data.select_all,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
         cy.get('table').contains('td',this.data.engagement_type5)
             .parent()
             .find('a[data-cy=projectcount]').invoke('attr', 'target', '_self').click()

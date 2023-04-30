@@ -61,6 +61,7 @@ beforeEach(() => {
         cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
         cy.get('[data-cy="id_community_type"]').select(this.data.community_type3,{force:true})
         cy.get('[data-cy="academic_year"]').should('contain.text', this.data.academic_year1)
+        cy.get('[data-cy="applyfilters"]').click()
         cy.get('[data-cy="Reset Filters"]').click()
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
         })
@@ -78,6 +79,7 @@ beforeEach(() => {
         cy.get('[data-cy="college-name"]').select(this.data.college_name1,{force:true})
         cy.get('[data-cy="id_campus_partner"]').select(this.data.select_all,{force:true})
         cy.get('[data-cy="weitz_cec_part"]').select(this.data.cec_part4,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
     })
 
     it("Check Card View", function() 
@@ -91,6 +93,7 @@ beforeEach(() => {
         cy.get('[data-cy="mission"]').select(this.data.focus_area3,{force:true})
         cy.get('[data-cy="engagement-type"]').select(this.data.select_all,{force:true})
         cy.get('[data-cy="id_campus_partner"]').select(this.data.campus_partner3,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
         //verify if theye are present in card structure
         cy.get('[data-cy="mission"]').contains(this.data.focus_area3).should("be.visible")
         cy.get('[data-cy="academic_year"]').contains(this.data.academic_year2).should("be.visible")
@@ -109,6 +112,8 @@ beforeEach(() => {
         cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
         cy.get('[data-cy="mission"]').select(this.data.select_all,{force:true})
         cy.get('[data-cy="engagement-type"]').select(this.data.engagement_type2,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
+        cy.wait(1000)
         cy.get('[data-cy="Table View"]').click()
         cy.get('[data-cy="box"]').get('.buttons-csv').should("be.visible").click()
         cy.get('[data-cy="box"]').get('.buttons-pdf').should("be.visible").click()

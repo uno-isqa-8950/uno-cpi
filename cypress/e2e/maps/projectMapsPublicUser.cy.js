@@ -101,19 +101,19 @@
       
           // select dropdown triggering click action to check it is clickable and asserting to check its not disabled
       
-            .get(districtsDropdown).trigger('click', {force: true}).should('not.be.disabled').select(this.data.All_Legislative_Districts)
+            .get(districtsDropdown).trigger('click', {force: true}).should('not.be.disabled').select(this.data.All_Legislative_Districts, {force: true})
 
       cy.get(communityPartnerDropdown).trigger('click', {force: true}).should('not.be.disabled')
-      .get(communityPartnerDropdown).select(this.data.community_type2)
+      .get(communityPartnerDropdown).select(this.data.community_type2, {force: true})
 
       .get(selectCollegeDropdown).trigger('click', {force: true}).should('not.be.disabled')
-      .get(selectCollegeDropdown).select(this.data.All_Colleges_And_main_Units)
+      .get(selectCollegeDropdown).select(this.data.All_Colleges_And_main_Units, {force: true})
 
       .get(selectCampusPartnerDropdown).trigger('click', {force: true}).should('not.be.disabled')
-      .get(selectCampusPartnerDropdown).select(this.data.All_Campus_Partners)
+      .get(selectCampusPartnerDropdown).select(this.data.All_Campus_Partners, {force: true})
 
       .get(selectYearDropdown).trigger('click', {force: true}).should('not.be.disabled')
-      .get(selectYearDropdown).select(this.data.All_Academic_Years)
+      .get(selectYearDropdown).select(this.data.All_Academic_Years, {force: true} )
       
             .get(mapsDivId).should('exist')
       

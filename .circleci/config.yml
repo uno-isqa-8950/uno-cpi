@@ -81,7 +81,7 @@ jobs:
           command: |
             source venv/bin/activate
             export GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
-            #python manage.py collectstatic --noinput
+            python manage.py collectstatic --noinput
       - run:
           name: Run Server
           command: |
@@ -109,9 +109,6 @@ jobs:
             export DISPLAY=:99
             Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
             npm install cypress@latest
-            mkdir -p /home/circleci/project/test-results
-            #npx cypress run --parallel --record --key ${CYPRESS_RECORD_KEY} --headless
-            #npm run start
       - run:
           name: Run Cypress Test Scripts
           command: |
@@ -153,7 +150,7 @@ workflows:
           filters:
             branches:
               only:
-                - SP23_CICD_Pipeline
+                - Staging
   deploy:
     jobs:
       - deploy:

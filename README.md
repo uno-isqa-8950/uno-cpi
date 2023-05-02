@@ -13,19 +13,24 @@ The official repository of the Community Engagement Partnership Initiative (UNO)
     
 
 
-#Getting Started:
-1.	Install Python 3.10 from https://www.python.org/downloads/
-2.	pip install -r requirements.txt
+Getting Started:
+
+•	Install Python 3.10 from https://www.python.org/downloads/
+
+•	pip install -r requirements.txt
 
 
-#Database Migration:
-navigate to the folder containing manage.py and run the following commands in order.
-1.	python manage.py makemigrations
-2.	python manage.py migrate
-3.	python manage.py runserver
+Database Migration:
+Navigate to the folder containing manage.py and run the following commands in order.
+
+•	python manage.py makemigrations
+
+•	python manage.py migrate
+
+•	python manage.py runserver
 
 
-#Test Server:
-navigate to the folder containing manage.py and run the following command. python manage.py runserver navigate to http://127.0.0.1:8000/ to go to the home page.
+Test Server:
+Navigate to the folder containing manage.py and run the following command. python manage.py runserver navigate to http://127.0.0.1:8000/ to go to the home page.
 
 

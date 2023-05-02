@@ -1,3 +1,5 @@
+![CircleCI](https://img.shields.io/badge/circle%20ci-%23161616.svg?style=for-the-badge&logo=circleci&logoColor=white)
+
 UNO CPI
 #UNO Community Partnership Intiative 
 
@@ -16,7 +18,6 @@ The official repository of the Community Engagement Partnership Initiative (UNO)
 Getting Started:
 
 •	Install Python 3.10 from https://www.python.org/downloads/
-
 •	pip install -r requirements.txt
 
 
@@ -32,5 +33,7 @@ Navigate to the folder containing manage.py and run the following commands in or
 
 Test Server:
 Navigate to the folder containing manage.py and run the following command. python manage.py runserver navigate to http://127.0.0.1:8000/ to go to the home page.
+
+
 
 

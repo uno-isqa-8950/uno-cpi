@@ -150,7 +150,7 @@ workflows:
           filters:
             branches:
               only:
-                - Staging
+                - Sprint6
   deploy:
     jobs:
       - deploy:

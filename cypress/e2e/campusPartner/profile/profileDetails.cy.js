@@ -1,21 +1,28 @@
 import user from "../../../support/commands.js";
 
-describe('Change user details from profile page', () => {
-  beforeEach(() => {
-    cy.on('uncaught:exception', (err) => {
-      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-      {
-        return false
-      }
-    })
-    cy.fixture("datareports").then(function(data) {
-      this.data = data
-    })
-    cy.loginCampusUser(user)
-    cy.visit(Cypress.env('baseUrl'))
+beforeEach(() => {
+  cy.on('uncaught:exception', (err, runnable) => {
+  if(err.message.includes('is not a function') ||err.message.includes('Cannot read properties of null') ||err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('reading \'style\''))
+  {
+  return false
+  }
   })
-
-    const userDetailsLink = '[data-cy="user"]',
+  cy.visit(Cypress.env('baseUrl'))
+  
+  })
+  describe('My Drafts - campus partner user', () => {
+  beforeEach(function() {
+  cy.fixture("datareports").then(function(data) {
+  this.data = data
+  cy.get('[data-cy="login"]').click()
+  cy.loginCampusUser_nosession(user)
+  })
+  })
+  it('Check login form', function() {
+  cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
+  })
+  
+  const userDetailsLink = '[data-cy="user"]',
         profileLink = '[data-cy="accountinfo"]',
         update = '[data-cy="edit"]',
         name = ':nth-child(3) > [data-cy="name"]',

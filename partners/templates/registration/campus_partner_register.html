@@ -590,14 +590,17 @@
         var dataarray=[];
         newElement.find(':input').each(function () {
             var name = $(this).attr('name');
-            if (name) {
-
+            if (name) {                      
                 var type = $('#id_' + name).val();
                 dataarray.push(type);
-                contactdataarray.push(type);
-
-
-
+                var newset = new Set(contactdataarray);
+                if(type.includes('.edu')){
+                    eduEmail = $(this).val();
+                if(newset.has(eduEmail)){
+                    alert("'" +eduEmail +"' is already given. Please delete duplicate email row.")
+                      
+                } } 
+                contactdataarray.push(type);                
                     name = name.replace('-' + (total - 1) + '-', '-' + total + '-');
                     var id = 'id_' + name;
 
@@ -794,11 +797,11 @@
         //      cloneMore('.form-row:last', 'form');
         //     return true;
         // }
-        var initialcheck = validatecontact();
+        var initialcheck = validatecontact();        
         if((initialcheck === true)) {
             $('.error').remove();
             cloneMore('.form-row:last', 'form');
-            return true;
+            return true; 
         }
 
     });

@@ -29,7 +29,7 @@ beforeEach(() => {
     cy.get('#id_form-0-last_name').type(this.data.campuspartner1_lastname,{force:true})
     cy.get('#id_form-0-email_id').type(this.data.campuspartner1_emailID,{force:true})
     cy.get('[data-cy="add-form-row"]').click({force: true});
-    cy.get('[data-cy="termsdiv"]').click({force:true});
+    cy.get('[data-cy="termsdiv"]').click({force: true});
     cy.get('[data-cy="submit"]').click({force:true});
     cy.get('[data-cy="heading"]').should('have.text', "Thank You")
     cy.get('[data-cy="text"]').contains("Your organization is successfully registered as a campus partner.")

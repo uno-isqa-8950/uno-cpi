@@ -84,12 +84,11 @@ class EngagementActivityTypeList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
 
 
-class StatusList(admin.ModelAdmin):
-
-    list_display = ('name', 'description')
-
-    search_fields = ('name',)
-
+class StatusList(SimpleHistoryAdmin, ImportExportModelAdmin):
+    class Meta:
+        model = Project
+        fields = ('id', 'name', 'description')
+        import_id_fields = ['id', 'name', 'description']
 
 class AcademicYearResource(resources.ModelResource):
 

@@ -38,4 +38,4 @@ Navigate to the folder containing manage.py and run the following command. pytho
 
 
 
-
+[![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-31010/)

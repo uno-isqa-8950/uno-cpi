@@ -276,6 +276,9 @@ beforeEach(() => {
   })
   //Check duplicate contact information cannot be added
   it('verify duplicate contact information cannot be added', function () {
+     const expectedText = `${this.data.campuspartner1_emailID}`,
+      alertText = " is already given. Please delete duplicate email row."
+
     cy.get('[data-cy="partners"]').should("be.visible").click()
     cy.get('[data-cy="btn_reg_campus_partner"]').click()
     const campus_partnerName = 'input[id="id_name"]'
@@ -293,10 +296,8 @@ beforeEach(() => {
     cy.get('#id_form-1-last_name').type(this.data.campuspartner1_lastname,{force:true})
     cy.get('#id_form-1-email_id').type(this.data.campuspartner1_emailID,{force:true})
     cy.get('.add-form-row').click()
-    cy.get('[data-cy="termsdiv"]').click();
-    cy.get('[data-cy="submit"]').click();
     cy.on('window:alert', (txt) => {
-      expect(txt).to.contains('Duplicate contacts cannot be added');
+      expect(txt).to.includes( "'"+ expectedText + "'" + alertText);
     })
   })
 
@@ -322,22 +323,5 @@ beforeEach(() => {
     cy.get('input[type=submit]').click()
     cy.get('#changelist-search > div > [type="submit"]').click()
     cy.get('#searchbar').clear()
-    cy.get('#searchbar').click().type(this.data.campus_partner9)
-    cy.get('#changelist-search > div > [type="submit"]').click()
-    cy.get('.field-name > a').contains(this.data.campus_partner9).click()
-    cy.get('.deletelink-box > a').click()
-    cy.get('input[type=submit]').click()
-    cy.get('#changelist-search > div > [type="submit"]').click()
-    //cy.get('.breadcrumbs > [href="/admin/"]').click()
-    //cy.get('.model-contact > th > a').click()
-    //cy.get('#searchbar').type(this.data.campuspartner1_emailID)
-    //cy.get('#changelist-search > div > [type="submit"]')
-    //cy.get('.field-email_id').contains(this.data.campuspartner1_emailID)
-    //cy.get('.field-first_name > a').click()
-    //cy.get('.deletelink').click()
-    //cy.get('div > [type="submit"]').click()
-    //cy.get('#searchbar').click().type(this.data.campuspartner1_emailID)
-    //cy.get('#changelist-search > div > [type="submit"]').click()
-    //cy.get('.paginator').contains('0 contacts')
   })
 })

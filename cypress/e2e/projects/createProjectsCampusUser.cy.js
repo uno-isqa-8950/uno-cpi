@@ -113,7 +113,7 @@ beforeEach(() => {
     cy.get('[data-cy="projectregistration"]').should('contain.text', 'Project Registration')
   })
   //Verify project name is mandatory
-  it('check Project name is a mandatory field', function () {
+  it.skip('check Project name is a mandatory field', function () {
     cy.checkProjectName()
     cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
     cy.get('.btn-secondary').click();

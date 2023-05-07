@@ -26,7 +26,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open --config-file cypress.config.js",
-    "cy:run": "cypress run --spec \"${CYPRESS_SPEC}\"",
+    "cy:run": "cypress run --headless --spec \"${CYPRESS_SPEC}\"",
     "lint": "eslint \"**/**/*.cy.js\"",
     "lint --fix": "eslint --fix cypress/e2e/"
   }

@@ -277,7 +277,7 @@ beforeEach(() => {
   //Check duplicate contact information cannot be added
   it('verify duplicate contact information cannot be added', function () {
      const expectedText = `${this.data.campuspartner1_emailID}`,
-      alertText = " is already given. Please delete duplicate email row."
+      alertText = " is already given. Please avoid duplicate email."
 
     cy.get('[data-cy="partners"]').should("be.visible").click()
     cy.get('[data-cy="btn_reg_campus_partner"]').click()

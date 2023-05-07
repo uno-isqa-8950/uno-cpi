@@ -128,3 +128,6 @@ cypress/downloads
 
 #migrations folder
 migrations/
+
+#create superuser script
+create_superuser.py

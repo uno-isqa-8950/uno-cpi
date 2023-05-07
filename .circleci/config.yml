@@ -29,7 +29,7 @@ jobs:
             aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
             aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
             aws configure set default.region ${AWS_DEFAULT_REGION}
-            aws s3 cp s3://$AWS_STORAGE_BUCKET_NAME/PostgresDump/SP2_db_2.sql /PostgresDump
+            aws s3 cp s3://$AWS_STORAGE_BUCKET_NAME/PostgresDump/sprint6.sql /PostgresDump
       - run:
           name: Install system dependencies
           command: |
@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Restore database from dump file
           command: |
-            psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -h localhost < /PostgresDump/SP2_db_2.sql
+            psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -h localhost < /PostgresDump/sprint6.sql
           environment:
             LC_ALL: C.UTF-8
             LANG: C.UTF-8
@@ -65,12 +65,13 @@ jobs:
             sudo chmod -R 777 /home
             cp /home/circleci/project/UnoCPI/settings.py /home/circleci/project/UnoCPI/settings.py_bak
             aws s3 cp s3://$AWS_STORAGE_BUCKET_NAME/circleci/circleci_settings.py /home/circleci/project/UnoCPI/settings.py
+            aws s3 cp s3://$AWS_STORAGE_BUCKET_NAME/circleci/create_superuser.py /home/circleci/project/home/management/commands/create_superuser.py
             source venv/bin/activate
             export DATABASE_URL=postgresql://"$POSTGRES_USER":'$POSTGRES_PASSWORD'@localhost/"$POSTGRES_DB"
             ls
             python manage.py makemigrations
             python manage.py migrate --noinput
-            python manage.py createsuperuser --email=myuser@gmail.com --noinput
+            python manage.py create_superuser
           environment:
             LC_ALL: C.UTF-8
             LANG: C.UTF-8

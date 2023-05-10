@@ -7,10 +7,6 @@ UNO CPI
 UNO Community Partnership Intiative 
 
 The official repository of the Community Engagement Partnership Initiative (UNO) Project for the Spring 2023 Capstone classes at the University of Nebraska at Omaha Written in Python/Django
-
-    •	Python Version 3.10
-    
-    •	Django Version 4.1.7
     
     •	PostgresSQL Version 14
     
@@ -40,7 +36,7 @@ Navigate to the folder containing manage.py and run the following command. pytho
 
 
 
-testing what tables look like in readme:
+Highlights
 
 | Functionality | Related packages    | Versions    |
 | :---:   | :---: | :---: |

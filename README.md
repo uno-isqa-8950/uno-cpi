@@ -7,7 +7,7 @@
 testing what images look like
 
 <p align="center">
-  <img width="460" height="300" src=![image](https://github.com/uno-isqa-8950/uno-cpi/assets/30575448/ee9ce709-7e96-4108-9a05-068d99dfbf25)>
+  <img width="460" height="300" src="![image](https://github.com/uno-isqa-8950/uno-cpi/assets/30575448/ee9ce709-7e96-4108-9a05-068d99dfbf25)">
 </p>
 
 UNO CPI

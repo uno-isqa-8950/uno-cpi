@@ -12,6 +12,12 @@ The official repository of the Community Engagement Partnership Initiative (UNO)
     
     •	Heroku Stack 22
     
+    •	CircleCi Version 2.1 (confirm and update)
+    
+    •	Cypress Version (confirm and update)
+    
+    
+    
 
 
 

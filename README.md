@@ -40,15 +40,10 @@ Navigate to the folder containing manage.py and run the following command. pytho
 
 
 
-
 testing what tables look like in readme:
 
 | Functionality | Related packages    | Versions    |
 | :---:   | :---: | :---: |
 | Programming Language | Python   | [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-31010/)   |
-| Framework | Django   | [![Django 4.1.7](https://img.shields.io/badge/Django%20-4.1.7-blue)]([https://www.python.org/downloads/release/python-31010](https://www.djangoproject.com/download/)/)   |
-| Single Sign On | SAML
-xmlsec 
-isodate
-six
-lxml   | [![Django 4.1.7](https://img.shields.io/badge/Django%20-4.1.7-blue)]([https://www.python.org/downloads/release/python-31010](https://www.djangoproject.com/download/)/)   |
+| Framework | Django   | [![Django 4.1.7](https://img.shields.io/badge/django%20-4.1.7-blue)](https://www.djangoproject.com/download/)   |
+| Single Sign On | SAML, xmlsec, isodate, six, lxml   | [![python3-saml](https://img.shields.io/badge/python3--saml-1.15.0-blue)](https://pypi.org/project/python3-saml/)   |

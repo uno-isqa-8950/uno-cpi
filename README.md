@@ -46,3 +46,4 @@ testing what tables look like in readme:
 | Functionality | Related packages    | Versions    |
 | :---:   | :---: | :---: |
 | Programming Language | Python   | [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-31010/)   |
+| Framework | Django   | [![Django 4.1.7](https://img.shields.io/badge/Django%20-4.1.7-blue)]([https://www.python.org/downloads/release/python-31010](https://www.djangoproject.com/download/)/)   |

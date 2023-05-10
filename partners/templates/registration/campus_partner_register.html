@@ -588,8 +588,7 @@
 
         var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
         var dataarray=[];
-        contactdataarray = contactdataarray.filter((contactdataarray) => !contactdataarray.includes(value))      
-        console.log('contactdataarray:', contactdataarray)
+        contactdataarray = contactdataarray.filter((contactdataarray) => !contactdataarray.includes(value)) 
         
         newElement.find(':input').each(function () {
             var name = $(this).attr('name');
@@ -787,7 +786,6 @@
         e.preventDefault();
         //var validinput = validateForm();
         console.log("entering clonemore add button");
-        console.log(contactdataarray);
 
         // if(contactdataarray[3] == "" && contactdataarray[4] == "" && contactdataarray[5] == "")
         //  {

@@ -48,3 +48,5 @@ testing what tables look like in readme:
 | Framework | Django   | [![Django 4.1.7](https://img.shields.io/badge/django%20-4.1.7-blue)](https://www.djangoproject.com/download/)   |
 | Single Sign On | SAML, xmlsec, isodate, six, lxml   | [![python3-saml](https://img.shields.io/badge/python3--saml-1.15.0-blue)](https://pypi.org/project/python3-saml/)   [![xmlsec](https://img.shields.io/badge/xmlsec-1.3.13-blue)](https://pypi.org/project/xmlsec/) [![isodate](https://img.shields.io/badge/isodate-0.6.1-blue)](https://pypi.org/project/isodate/) [![six](https://img.shields.io/badge/six-1.11.0-blue)](https://pypi.org/project/six/) [![lxml](https://img.shields.io/badge/lxml-4.9.2-blue)](https://pypi.org/project/lxml/)|
 | Data import / Export | django-import-export   | [![django-import-export](https://img.shields.io/badge/django--import--export-3.1.0-blue)](https://pypi.org/project/django-import-export/)   |
+| CMS | Wagtail   | [![wagtail](https://img.shields.io/badge/wagtail-4.2.2-blue)](https://pypi.org/project/wagtail/)   |
+

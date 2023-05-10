@@ -563,7 +563,7 @@
 {% block custom_js %}
 <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
 <script type="text/javascript" >
-     var contactdataarray=[];
+     var contactdataarray=[];  var value =0;
      var cnt = 0;
     function updateElementIndex(el, prefix, ndx) {
         var id_regex = new RegExp('(' + prefix + '-\\d+)');
@@ -588,6 +588,8 @@
 
         var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
         var dataarray=[];
+        contactdataarray = contactdataarray.filter((contactdataarray) => !contactdataarray.includes(value)) 
+        
         newElement.find(':input').each(function () {
             var name = $(this).attr('name');
             if (name) {                      
@@ -784,7 +786,6 @@
         e.preventDefault();
         //var validinput = validateForm();
         console.log("entering clonemore add button");
-        console.log(contactdataarray);
 
         // if(contactdataarray[3] == "" && contactdataarray[4] == "" && contactdataarray[5] == "")
         //  {
@@ -809,8 +810,10 @@
     $(document).on('click', '.remove-form-row', function(e){
         // alert('del');
         e.preventDefault();
+        tr_value = $(this).closest('tr')
+        value = tr_value.find("td:eq(1)").text();        
         $(this).closest('tr').remove();
-        //deleteForm('form', $(this));
+        // deleteForm('form', $(this));
         var data_id = $(this).attr('data-id');
         $( "div.form-row[data-id='" + data_id + "']" ).remove();
         return false;

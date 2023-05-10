@@ -43,6 +43,6 @@ Navigate to the folder containing manage.py and run the following command. pytho
 
 testing what tables look like in readme:
 
-| Package | #1    | #2    |
+| Functionality | Related packages    | Versions    |
 | :---:   | :---: | :---: |
-| Seconds | 301   | [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-31010/)   |
+| Programming Language | Python   | [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-31010/)   |

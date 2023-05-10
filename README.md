@@ -14,26 +14,6 @@ The official repository of the Community Engagement Partnership Initiative (UNO)
     
 
 
-Getting Started:
-
-•	Install Python 3.10 from https://www.python.org/downloads/
-•	pip install -r requirements.txt
-
-
-Database Migration:
-Navigate to the folder containing manage.py and run the following commands in order.
-
-•	python manage.py makemigrations
-
-•	python manage.py migrate
-
-•	python manage.py runserver
-
-
-Test Server:
-Navigate to the folder containing manage.py and run the following command. python manage.py runserver navigate to http://127.0.0.1:8000/ to go to the home page.
-
-
 
 
 Highlights
@@ -46,3 +26,22 @@ Highlights
 | Data import / Export | django-import-export, XlsWriter   | [![django-import-export](https://img.shields.io/badge/django--import--export-3.1.0-blue)](https://pypi.org/project/django-import-export/) [![xlswriter](https://img.shields.io/badge/XlsWriter-3.0.8-blue)](https://pypi.org/project/XlsxWriter/)   |
 | CMS | Wagtail   | [![wagtail](https://img.shields.io/badge/wagtail-4.2.2-blue)](https://pypi.org/project/wagtail/)   |
 
+
+Getting Started:
+
+    •	Install Python 3.10 from https://www.python.org/downloads/
+    •	pip install -r requirements.txt
+
+
+Database Migration:
+Navigate to the folder containing manage.py and run the following commands in order.
+
+    •	python manage.py makemigrations
+
+    •	python manage.py migrate
+
+    •	python manage.py runserver
+
+
+Test Server:
+Navigate to the folder containing manage.py and run the following command. python manage.py runserver navigate to http://127.0.0.1:8000/ to go to the home page.

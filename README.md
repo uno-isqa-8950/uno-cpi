@@ -27,7 +27,7 @@ Highlights
 | Functionality | Related packages    | Versions    |
 | :---:   | :---: | :---: |
 | Programming Language | Python   | [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-31010/)   |
-| Framework | Django   | [![Django 4.1.7](https://img.shields.io/badge/django%20-4.1.7-blue)](https://www.djangoproject.com/download/)   |
+| Framework | Django   | [![Django 4.1.9](https://img.shields.io/badge/django%20-4.1.9-blue)](https://www.djangoproject.com/download/)   |
 | Single Sign On | SAML, xmlsec, isodate, six, lxml   | [![python3-saml](https://img.shields.io/badge/python3--saml-1.15.0-blue)](https://pypi.org/project/python3-saml/)   [![xmlsec](https://img.shields.io/badge/xmlsec-1.3.13-blue)](https://pypi.org/project/xmlsec/) [![isodate](https://img.shields.io/badge/isodate-0.6.1-blue)](https://pypi.org/project/isodate/) [![six](https://img.shields.io/badge/six-1.11.0-blue)](https://pypi.org/project/six/) [![lxml](https://img.shields.io/badge/lxml-4.9.2-blue)](https://pypi.org/project/lxml/)|
 | Data import / Export | django-import-export, XlsWriter   | [![django-import-export](https://img.shields.io/badge/django--import--export-3.1.0-blue)](https://pypi.org/project/django-import-export/) [![xlswriter](https://img.shields.io/badge/XlsWriter-3.0.8-blue)](https://pypi.org/project/XlsxWriter/)   |
 | CMS | Wagtail   | [![wagtail](https://img.shields.io/badge/wagtail-4.2.2-blue)](https://pypi.org/project/wagtail/)   |
@@ -36,21 +36,22 @@ Highlights
 
 Getting Started:
 
-    •	Install Python 3.10 from https://www.python.org/downloads/
-    
-    •	pip install -r requirements.txt
-
+Install Python 3.10 from https://www.python.org/downloads/
+```
+    pip install -r requirements.txt
+```
 
 Database Migration:
 
 Navigate to the folder containing manage.py and run the following commands in order.
 
-    •	python manage.py makemigrations
+```
+    python manage.py makemigrations
 
-    •	python manage.py migrate
+    python manage.py migrate
 
-    •	python manage.py runserver
-
+    python manage.py runserver
+```
 
 Test Server:
 

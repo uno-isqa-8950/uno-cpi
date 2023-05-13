@@ -232,7 +232,7 @@
                     false
                 );
             </script>
-             <input type="button" id="btnApply" value="Apply Filters" class="btn btn-secondary" data-cy="applyfilters"/>
+             <input type="button" id="btnApply" value="Apply Filters" class="btn btn-secondary" style="background-color: crimson;" data-cy="applyfilters"/>
             <script type="text/javascript">
                document.getElementById("btnApply").addEventListener(
                    "click",
@@ -487,7 +487,7 @@
         <div class="col-lg-6 col-sm-12">
                 Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}
         </div>
-        <div class="col-lg-6 col-sm-12 paginate">
+        <div class="col-lg-6 col-sm-12 paginate" style="text-align: right;">
 
                 {% if cards.has_other_pages %}
 
@@ -508,6 +508,10 @@
                         <a class="btn btn-secondary" href="?{{ parameters }}&page={{ cards.paginator.num_pages }}">Last</a>
                     {% endif %}
                 {% endif %}
+
+                &nbsp;&nbsp;&nbsp;
+                    <a href="#top" class="scroll-to-top" style="color: crimson;">▲</a>
+
         </div>
     </div>
 {% endblock %}
@@ -535,10 +539,11 @@
             //     columnDefs: [{'searchable':false, 'targets':[5,8,9,10,11,12,13,14,15,16,17,18]}]
             // });
 
-            $('#example').DataTable({
+            var table = $('#example').DataTable({
                 dom: 'B<"clear">lftpi',
                 paging : false,
                 info : false,
+                bAutoWidth :false,
                 buttons: {
                     name: 'primary',
                     buttons: [{
@@ -599,10 +604,8 @@
                 $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
             }).on('touchstart click', '.onX', function( ev ){
                 ev.preventDefault();
-                $(this).removeClass('x onX').val('').change();
-                $('#example').DataTable().destroy();
-                $('#example').DataTable().draw();
-                $('#example_filter').find('input').addClass('clearable');
+                $(this).val('').trigger('input');
+                table.search('').columns().search('').draw();
 
 
             });

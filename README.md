@@ -59,3 +59,4 @@ Navigate to the folder containing manage.py and run the following command.
     python manage.py runserver 
 
 navigate to http://127.0.0.1:8000/ to go to the home page.
+

@@ -53,4 +53,10 @@ Navigate to the folder containing manage.py and run the following commands in or
 
 Test Server:
 
-Navigate to the folder containing manage.py and run the following command. python manage.py runserver navigate to http://127.0.0.1:8000/ to go to the home page.
+Navigate to the folder containing manage.py and run the below command.
+
+    •	python manage.py runserver 
+    
+Navigate to the link below to go to the home page.
+    •	http://127.0.0.1:8000/
+

@@ -36,21 +36,22 @@ Highlights
 
 Getting Started:
 
-    •	Install Python 3.10 from https://www.python.org/downloads/
-    
-    •	pip install -r requirements.txt
-
+Install Python 3.10 from https://www.python.org/downloads/
+```
+    pip install -r requirements.txt
+```
 
 Database Migration:
 
 Navigate to the folder containing manage.py and run the following commands in order.
 
-    •	python manage.py makemigrations
+```
+    python manage.py makemigrations
 
-    •	python manage.py migrate
+    python manage.py migrate
 
-    •	python manage.py runserver
-
+    python manage.py runserver
+```
 
 Test Server:
 

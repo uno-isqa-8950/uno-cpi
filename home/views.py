@@ -1031,7 +1031,7 @@ def project_partner_info_admin(request):
                     cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours \
                                     from projects_project p where p.id=%s", (str(i),))
 
-                    print(cursor.fetchall())
+
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -1315,17 +1315,19 @@ def engagement_info(request):
             if len(proj_ids) > 0:
                 for i in proj_ids:
                     cursor.execute(
-                        "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s",
+                        "SELECT p.total_uno_students, p.total_uno_hours FROM projects_project p WHERE p.id = %s",
                         (str(i),))
 
-                    print(cursor.fetchall())
-                    for obj1 in cursor.fetchall():
-                        sum_uno_students = sum_uno_students + obj1[0]
-                        sum_uno_hours = sum_uno_hours + obj1[1]
-                    proj_idList = proj_idList + str(i)
+                    results = cursor.fetchall()  # Fetch the results once and store them in a variable
+
+                    for obj1 in results:  # Iterate over the results variable
+                        sum_uno_students += obj1[0]
+                        sum_uno_hours += obj1[1]
+
+                    proj_idList += str(i)
                     if name_count < len(proj_ids) - 1:
-                        proj_idList = proj_idList + str(",")
-                        name_count = name_count + 1
+                        proj_idList += ","
+                        name_count += 1
 
         if comm_ids is not None:
             name_count = 0
@@ -1736,7 +1738,7 @@ def googleprojectdata(request):
                    'Campuspartner': (Campuspartner),
                    'Communitypartner': sorted(Communitypartner),
                    'EngagementType': sorted(map_json_data[1]),
-                   'year': sorted(map_json_data[6]), 'data_definition': data_definition,
+                   'year': sorted(map_json_data[6],reverse=True), 'data_definition': data_definition,
                    'Collegename': (map_json_data[7])
                    }
                   )
@@ -1756,7 +1758,7 @@ def googlecityDistrict(request):
                    # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': sorted(map_json_data[4]),
+                   'year': sorted(map_json_data[4], reverse=True),
                    'data_definition': data_definition,
                    'Collegename': map_json_data[6]
                    }
@@ -1777,7 +1779,7 @@ def googleDistrictdata(request):
                    # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': sorted(map_json_data[4]), 'data_definition': data_definition,
+                   'year': sorted(map_json_data[4], reverse=True), 'data_definition': data_definition,
                    'Collegename': map_json_data[6]
                    }
                   )
@@ -1798,7 +1800,7 @@ def googlepartnerdata(request):
                    # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': map_json_data[4], 'data_definition': data_definition,
+                   'year': sorted(map_json_data[4], reverse=True), 'data_definition': data_definition,
                    'College': (College)  # k sorted
                    }
                   )
@@ -1819,7 +1821,7 @@ def googlemapdata(request):
                    # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': map_json_data[4], 'data_definition': data_definition,
+                   'year': sorted(map_json_data[4], reverse=True), 'data_definition': data_definition,
                    'College': (College)
                    }
                   )

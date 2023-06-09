@@ -298,4 +298,11 @@ $(document).ready(function(){
               $('[data-toggle="tooltip"]').tooltip();
             });
 </script>
+    <script>
+        const selectEl = document.getElementById("id_academic_year");
+        const options = Array.from(selectEl.options);
+        options.sort((a, b) => b.value.localeCompare(a.value));
+        selectEl.innerHTML = '';
+        options.forEach((option) => selectEl.add(option));
+    </script>
 {% endblock %}

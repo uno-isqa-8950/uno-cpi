@@ -507,7 +507,10 @@ def editProject(request, pk):
                                                              'projectId': pk, 'activityList': activityList,
                                                              'selectedActivity': selectedActivity,
                                                              'selectedMission': proj_mission,
-                                                             'data_definition': data_definition})
+                                                             'data_definition': data_definition,
+                                                             'proj_acdYear': proj_edit.academic_year,
+                                                             'proj_endAcdYear': proj_edit.end_academic_year}
+                                                             )
 
 
 @login_required()
@@ -1021,10 +1024,12 @@ def communityPrivateReport(request):
                         "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s",
                         (str(i),))
 
-                    print(cursor.fetchall())
-                    for obj1 in cursor.fetchall():
-                        sum_uno_students = sum_uno_students + obj1[0]
-                        sum_uno_hours = sum_uno_hours + obj1[1]
+                    results = cursor.fetchall()  # Fetch the results once and store them in a variable
+
+                    for obj1 in results:  # Iterate over the results variable
+                        sum_uno_students += obj1[0]
+                        sum_uno_hours += obj1[1]
+
                     proj_idList = proj_idList + str(i)
                     if name_count < len(proj_ids) - 1:
                         proj_idList = proj_idList + str(",")

@@ -431,6 +431,8 @@ label[for=id_campus-0-campus_partner]:after{
                                                     <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                                     {% endfor %} {% endif %}
                                                     </div>
+
+
                                                     <div class="row">
                                                 <label class="col-md-5">
                                                     
@@ -1046,6 +1048,13 @@ $('#update').show;
             if (confirm("You will be redirected back to the search project page and the changes will be lost. Are you sure, you want to cancel editing project?")) {
                       window.location = '/check-Project';
                     }
+        });
+        //Mansi's code
+    $('#projectdurationnav').click(function() {
+            $('#select2-id_academic_year-container').attr('title', "{{ proj_acdYear }}");
+            $('#select2-id_academic_year-container').text("{{ proj_acdYear }}");
+            $('#select2-id_end_academic_year-container').attr('title', "{{ proj_endAcdYear }}");
+            $('#select2-id_end_academic_year-container').text("{{ proj_endAcdYear }}");
         });
     //----------------------project name and year validation---------------------
     $("#id_academic_year").change(function () {

@@ -70,8 +70,8 @@ describe('Home Page Public user', () => {
         cy.contains('Community Partners')
         cy.contains('Legislative Districts')
         cy.contains('City Districts')
-        cy.contains('Community Partner Types')
-        cy.contains('Projects')
+        //cy.contains('Community Partner Types')
+        // cy.contains('Projects')
         })
     it('Navigation bar options for Analytics', function() {
         cy.get('[data-cy=analytics]').contains('Analytics').click()

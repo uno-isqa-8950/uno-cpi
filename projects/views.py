@@ -1501,6 +1501,9 @@ def filter_projects(request):
     elif cec_part_selection == "CURR_CAMP":
         project_list = project_list.filter(campus_partner__cec_partner_status__name='Current')
 
+    unique_project_set = set(project_list)
+    project_list = list(unique_project_set)
+
     context = {'project': project_list,
                'data_definition': data_definition,
                'missions': ProjectMissionFilter(request.GET, queryset=MissionArea.objects.all()),

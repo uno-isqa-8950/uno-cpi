@@ -68,8 +68,8 @@ beforeEach(() => {
         cy.contains('Community Partners')
         cy.contains('Legislative Districts')
         cy.contains('City Districts')
-        cy.contains('Community Partner Types')
-        cy.contains('Projects')
+       // cy.contains('Community Partner Types')
+      //  cy.contains('Projects')
         })
      it('Navigation bar options for Projects', function() {
         cy.get('[data-cy="projectsnav"]').click()

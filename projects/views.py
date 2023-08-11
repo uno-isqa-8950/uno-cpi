@@ -388,8 +388,6 @@ def editProject(request, pk):
                                                       prefix='sub_category_edit')
 
             if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_subcatdetails.is_valid():
-                print("valid")
-                print()
                 instances = project.save()
                 instances.project_name = instances.project_name.split(":")[0] + ": " + str(
                     instances.academic_year) + " (" + pk + ")"
@@ -819,15 +817,15 @@ def communityPublicReport(request):
     max_yr_id = max(yrs)
 
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(default_yr_id)
-        academic_end_year_cond = int(default_yr_id)
+        academic_start_year_cond = int(max_yr_id)
+
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = 1
+
     else:
         academic_start_year_cond = int(academic_year_filter)
-        academic_end_year_cond = int(academic_year_filter)
+
 
     campus_partner_filter = request.GET.get('campus_partner', None)
     if campus_partner_filter is None or campus_partner_filter == "All" or campus_partner_filter == '':
@@ -850,24 +848,50 @@ def communityPublicReport(request):
     elif cec_part_selection == "FORMER_COMM":
         cec_part_cond = 'Former'
 
-    if comm_ids is not None:
-        params = []
-        if comm_ids.find(",") != -1:
-            comm_list = comm_ids.split(",")
-            params.append(tuple(comm_list))
-            cursor = connection.cursor()
-            cursor.execute(sql.selected_community_public_report, params)
+    params = [community_type_cond, academic_start_year_cond, campus_partner_cond,
+              legislative_district_cond, college_unit_cond, cec_part_cond]
 
-        else:
-            params.append(str(comm_ids))
-            cursor = connection.cursor()
-            cursor.execute(sql.selected_One_community_public_report, params)
-
+    if academic_year_filter == "All":
+        acadYear_query = "p.academic_year_id <= " + str(academic_start_year_cond)
     else:
-        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                  legislative_district_cond, college_unit_cond, cec_part_cond]
-        cursor = connection.cursor()
-        cursor.execute(sql.community_public_report, params)
+        acadYear_query = "p.academic_year_id =" + str(academic_start_year_cond)
+
+    query_end = """
+        SELECT pc.name AS commpartners,
+        array_agg(DISTINCT hm.mission_name) AS mission,
+        COUNT(DISTINCT p.project_name) AS projects,
+        pc.website_url AS website,
+        array_agg(DISTINCT p.id) AS projectid,
+        pc.partner_status_id AS commstatus,
+        ps.name AS cstatus
+        FROM partners_communitypartner pc
+        JOIN projects_projectcommunitypartner pcp ON pc.id = pcp.community_partner_id
+        LEFT JOIN projects_project p ON p.id = pcp.project_name_id
+        LEFT JOIN projects_projectcampuspartner pcam ON pcam.project_name_id = p.id
+        LEFT JOIN partners_communitypartnermission CommMission ON CommMission.community_partner_id = pc.id
+            AND CommMission.mission_type = 'Primary'
+        LEFT JOIN home_missionarea hm ON hm.id = CommMission.mission_area_id
+        LEFT JOIN partners_campuspartner c ON pcam.campus_partner_id = c.id
+        LEFT JOIN partners_partnerstatus ps ON ps.id = pc.partner_status_id
+        LEFT JOIN projects_status s ON s.id = p.status_id
+        WHERE s.name != 'Drafts'
+            AND pc.community_type_id::text LIKE '{}'
+            AND {}
+            AND pcam.campus_partner_id::text LIKE '{}'
+            AND COALESCE(pc.legislative_district::TEXT, '0') LIKE '{}'
+            AND c.college_name_id::text LIKE '{}'
+            AND pc.cec_partner_status_id IN (
+                SELECT id
+                FROM partners_cecpartnerstatus
+                WHERE name LIKE '{}'
+            )
+        GROUP BY commpartners, website, commstatus, cstatus
+        ORDER BY commpartners;
+    """.format(community_type_cond, acadYear_query, campus_partner_cond, legislative_district_cond,
+               college_unit_cond, cec_part_cond)
+
+    cursor = connection.cursor()
+    cursor.execute(query_end)
 
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
@@ -977,15 +1001,12 @@ def communityPrivateReport(request):
     max_yr_id = max(yrs)
 
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(default_yr_id)
-        academic_end_year_cond = int(default_yr_id)
+        academic_start_year_cond = int(max_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = 1
     else:
         academic_start_year_cond = int(academic_year_filter)
-        academic_end_year_cond = int(academic_year_filter)
 
     campus_partner_filter = request.GET.get('campus_partner', None)
     if campus_partner_filter is None or campus_partner_filter == "All" or campus_partner_filter == '':
@@ -1004,10 +1025,50 @@ def communityPrivateReport(request):
     elif cec_part_selection == "FORMER_COMM":
         cec_part_cond = 'Former'
 
-    params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+    params = [community_type_cond, academic_start_year_cond, campus_partner_cond,
               legislative_district_cond, college_unit_cond, cec_part_cond]
+
+    if academic_year_filter == "All":
+        acadYear_query = "p.academic_year_id <= " + str(academic_start_year_cond)
+    else:
+        acadYear_query = "p.academic_year_id =" + str(academic_start_year_cond)
+
+    query_end = """
+        SELECT pc.name AS commpartners,
+        array_agg(DISTINCT hm.mission_name) AS mission,
+        COUNT(DISTINCT p.project_name) AS projects,
+        pc.website_url AS website,
+        array_agg(DISTINCT p.id) AS projectid,
+        pc.partner_status_id AS commstatus,
+        ps.name AS cstatus
+        FROM partners_communitypartner pc
+        JOIN projects_projectcommunitypartner pcp ON pc.id = pcp.community_partner_id
+        LEFT JOIN projects_project p ON p.id = pcp.project_name_id
+        LEFT JOIN projects_projectcampuspartner pcam ON pcam.project_name_id = p.id
+        LEFT JOIN partners_communitypartnermission CommMission ON CommMission.community_partner_id = pc.id
+            AND CommMission.mission_type = 'Primary'
+        LEFT JOIN home_missionarea hm ON hm.id = CommMission.mission_area_id
+        LEFT JOIN partners_campuspartner c ON pcam.campus_partner_id = c.id
+        LEFT JOIN partners_partnerstatus ps ON ps.id = pc.partner_status_id
+        LEFT JOIN projects_status s ON s.id = p.status_id
+        WHERE s.name != 'Drafts'
+            AND pc.community_type_id::text LIKE '{}'
+            AND {}
+            AND pcam.campus_partner_id::text LIKE '{}'
+            AND COALESCE(pc.legislative_district::TEXT, '0') LIKE '{}'
+            AND c.college_name_id::text LIKE '{}'
+            AND pc.cec_partner_status_id IN (
+                SELECT id
+                FROM partners_cecpartnerstatus
+                WHERE name LIKE '{}'
+            )
+        GROUP BY commpartners, website, commstatus, cstatus
+        ORDER BY commpartners;
+    """.format(community_type_cond, acadYear_query, campus_partner_cond, legislative_district_cond,
+               college_unit_cond, cec_part_cond)
+
     cursor = connection.cursor()
-    cursor.execute(sql.community_private_report, params)
+    cursor.execute(query_end)
 
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
@@ -1439,6 +1500,9 @@ def filter_projects(request):
 
     elif cec_part_selection == "CURR_CAMP":
         project_list = project_list.filter(campus_partner__cec_partner_status__name='Current')
+
+    unique_project_set = set(project_list)
+    project_list = list(unique_project_set)
 
     context = {'project': project_list,
                'data_definition': data_definition,

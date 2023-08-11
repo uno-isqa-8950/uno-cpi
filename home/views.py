@@ -688,9 +688,7 @@ def project_partner_info_public(request):
 				   left join projects_projectcommunitypartner pcp on pcp.project_name_id = p.id \
                    left join partners_communitypartner cp on cp.id = pcp.community_partner_id \
                    where  s.name != 'Drafts'  and " \
-                    "((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
-                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(
-        academic_end_year_cond) + "))"
+                     "((p.academic_year_id =" + str(academic_start_year_cond) + "))"
 
     project_clause_query = " "
     community_clause_query = " "
@@ -733,8 +731,7 @@ def project_partner_info_public(request):
                     left join partners_campuspartner c on pcamp.campus_partner_id = c.id \
                     left join projects_status s on  p.status_id = s.id \
                     where s.name != 'Drafts' \
-                    and ((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
-                        (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(academic_end_year_cond) + "))"
+                    and ((p.academic_year_id <=" + str(academic_start_year_cond) + "))"
 
     query_end = peoject_query_end + community_start + community_clause_query + " group by mission_id \
 					order by mission_id) \
@@ -937,9 +934,7 @@ def project_partner_info_admin(request):
 				   left join projects_projectcommunitypartner pcp on pcp.project_name_id = p.id \
                    left join partners_communitypartner cp on cp.id = pcp.community_partner_id \
                    where  s.name != 'Drafts'  and " \
-                    "((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
-                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(
-        academic_end_year_cond) + "))"
+                    "((p.academic_year_id =" + str(academic_start_year_cond) + "))"
 
     project_clause_query = " "
     community_clause_query = " "
@@ -989,8 +984,7 @@ def project_partner_info_admin(request):
                     left join partners_campuspartner c on pcamp.campus_partner_id = c.id \
                     left join projects_status s on  p.status_id = s.id \
                     where s.name != 'Drafts' \
-                    and ((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
-                        (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(academic_end_year_cond) + "))"
+                    and ((p.academic_year_id =" + str(academic_start_year_cond) + "))"
 
     query_end = peoject_query_end + community_start + community_clause_query + " group by mission_id order by mission_id) \
     Select hm.mission_name mission_area \
@@ -1069,9 +1063,7 @@ def project_partner_info_admin(request):
                     left join projects_status s on s.id = p.status_id \
                     left join partners_campuspartner c on pcamp.campus_partner_id = c.id \
                     where s.name !='Drafts' \
-                          and ((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
-                              (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(
-            academic_end_year_cond) + "))"
+                          and ((p.academic_year_id =" + str(academic_start_year_cond) + "))"
 
         subCat_query_end = subCat_start_query + subCat_clause_query + "group by sub_cat_id \
                                                                             order by sub_cat_id) \
@@ -1088,6 +1080,7 @@ def project_partner_info_admin(request):
             mission_ids) + \
                            " group by sub_cat, description, proj_ids, proj_counts, campus_counts, sec_mission \
                                                                             order by sub_cat;"
+
 
         cursor.execute(subCat_query_end)
         for sub_obj in cursor.fetchall():
@@ -1106,7 +1099,6 @@ def project_partner_info_admin(request):
                         cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours \
                                  from projects_project p where p.id=%s", (str(ids),))
 
-                        print(cursor.fetchall())
                         for obj_sum in cursor.fetchall():
                             sub_sum_uno_students = sub_sum_uno_students + obj_sum[0]
                             sub_sum_uno_hours = sub_sum_uno_hours + obj_sum[1]
@@ -1117,6 +1109,7 @@ def project_partner_info_admin(request):
                         if sub_name_count < len(sub_proj_ids) - 1:
                             sub_proj_idList = sub_proj_idList + str(",")
                             sub_name_count = sub_name_count + 1
+
             sub_list.append({"subCat": sub_obj[0], "sub_description": sub_obj[1], "sub_proj_ids": sub_proj_idList,
                              "sub_project_count": sub_obj[3], "sub_camp_count": sub_obj[4], "sub_mission": sub_obj[5],
                              "sub_sum_uno_students": sub_sum_uno_students, "sub_sum_uno_hours": sub_sum_uno_hours,
@@ -1242,7 +1235,10 @@ def engagement_info(request):
     elif cec_part_selection == "CURR_CAMP":
         cec_comm_part_cond = '%'
         cec_camp_part_cond = 'Current'
-
+    if academic_year_filter == "All":
+        acadYear_query = "((p.academic_year_id <=" + str(academic_start_year_cond) + "))"
+    else:
+        acadYear_query = "((p.academic_year_id =" + str(academic_start_year_cond) + "))"
     # params = [community_type_cond, cec_comm_part_cond, mission_type_cond,  campus_partner_cond, college_unit_cond,
     #           academic_start_year_cond, academic_end_year_cond, cec_camp_part_cond]
     cursor = connection.cursor()
@@ -1258,12 +1254,11 @@ def engagement_info(request):
                    left join projects_projectcommunitypartner pcomm on p.id = pcomm.project_name_id \
                    left join partners_communitypartner comm on pcomm.community_partner_id = comm.id  \
                    left join projects_status s on  p.status_id = s.id \
-                   join projects_projectmission pm on p.id = pm.project_name_id  and lower(pm.mission_type) = 'primary' \
+                   left join projects_projectmission pm on p.id = pm.project_name_id  and lower(pm.mission_type) = 'primary' \
                    left join partners_campuspartner c on pcamp.campus_partner_id = c.id  \
                    where  s.name != 'Drafts'  and " \
-                       "((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
-                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(
-        academic_end_year_cond) + "))"
+                       + acadYear_query
+
     clause_query = " "
     if mission_type_cond != '%':
         clause_query += " and pm.mission_id::text like '" + mission_type_cond + "'"

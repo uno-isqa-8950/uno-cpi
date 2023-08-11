@@ -249,8 +249,7 @@ left join partners_partnerstatus ps on ps.id = pc.partner_status_id
 left join projects_status s on s.id = p.status_id
 where  s.name != 'Drafts'
 and pc.community_type_id::text like %s
- and((p.academic_year_id <= %s) AND 
-       (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+ and((p.academic_year_id <= %s))
  and  pcam.campus_partner_id::text like %s  
  and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s 
@@ -326,8 +325,7 @@ left join partners_partnerstatus ps on ps.id = pc.partner_status_id
 left join projects_status s on s.id = p.status_id
 where  s.name != 'Drafts' 
 and pc.community_type_id::text like %s
- and((p.academic_year_id <= %s) AND 
-       (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+ and((p.academic_year_id <= %s))
  and  pcam.campus_partner_id::text like %s  
  and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s  

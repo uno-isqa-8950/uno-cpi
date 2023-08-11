@@ -240,7 +240,9 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 SAML_FOLDER = os.path.join(BASE_DIR, 'saml_uno')
 SAML_HOST_URL = os.environ.get('SAML_HOST_URL')
+#SAML_HOST_URL = 'http://localhost:8000/' #Uncomment this to run SSO in local machine
 APP_ENV = os.environ.get('APP_ENV')
+#APP_ENV = 'local' #Uncomment this to run SSO in local machine
 
 CORS_ORIGIN_WHITELIST = (SAML_HOST_URL)
 CORS_ORIGIN_ALLOW_ALL = True

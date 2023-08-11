@@ -318,6 +318,14 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         '<td><span style="font-weight:bold">&nbsp;Name&nbsp;</span></td>'+
         '<td><span style="font-weight:bold">&nbsp;Engagement Type&nbsp;</span></td></tr>';
         var projInnerHtml = ''
+            function compareByAcademicYear(a, b) {
+          const yearA = parseInt(a.academicYear[0].split('-')[0]);
+          const yearB = parseInt(b.academicYear[0].split('-')[0]);
+
+          return yearB - yearA;
+        }
+        const projectsArray = projects;
+        projectsArray.sort(compareByAcademicYear);
 
         for(var i=0;i<projects.length;i++){
             var projFullName = projects[i]["name"];

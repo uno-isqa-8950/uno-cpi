@@ -453,7 +453,12 @@
                         <td data-cy="campusPartner-table">{{ project.campus_partner.all|join:", "}}</td>
                         <td data-cy="engagementtype-table">{{ project.engagement_type}}</td>
                         <td data-cy="activityType-table">{{ project.activity_type }}</td>
-                        <td data-cy="other_activity_type">{{ project.other_activity_type }}</td>
+{#                        <td data-cy="other_activity_type">{{ project.other_activity_type }}</td>#}
+                        {% if project.other_activity_type %}
+                            <td data-cy="other_activity_type">{{ project.other_activity_type }}</td>
+                        {% else %}
+                            <td data-cy="other_activity_type">None</td>
+                        {% endif %}
                         <td data-cy="semester">{{ project.semester }}</td>
                         <td data-cy="academic-yr">{{ project.academic_year }}</td>
                         <td data-cy="end-semester">{{ project.end_semester }}</td>

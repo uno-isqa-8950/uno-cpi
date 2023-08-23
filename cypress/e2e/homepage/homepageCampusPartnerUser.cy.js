@@ -68,12 +68,14 @@ beforeEach(() => {
         cy.contains('Community Partners')
         cy.contains('Legislative Districts')
         cy.contains('City Districts')
+       //Uncomment the below code if the maps need to be added back to navigation menu
        // cy.contains('Community Partner Types')
       //  cy.contains('Projects')
         })
      it('Navigation bar options for Projects', function() {
         cy.get('[data-cy="projectsnav"]').click()
-        cy.contains('All Projects')
+        //Uncomment the below code if the maps need to be added back to navigation menu
+       // cy.contains('All Projects')
         cy.contains('My Projects')
         cy.contains('Create Project')
         cy.contains('My Drafts')

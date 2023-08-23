@@ -70,6 +70,7 @@ describe('Home Page Public user', () => {
         cy.contains('Community Partners')
         cy.contains('Legislative Districts')
         cy.contains('City Districts')
+        //Uncomment the below code if the maps need to be added back to navigation menu
         //cy.contains('Community Partner Types')
         // cy.contains('Projects')
         })

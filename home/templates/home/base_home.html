@@ -69,10 +69,10 @@
                     <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                    <a class="dropdown-item" href="/community-Partner" data-cy="communitypartners">Community Partners</a>
 
                     <a class="dropdown-item" href="/legislative-District" data-cy="legislative-District">Legislative Districts</a>
 
-                    <a class="dropdown-item" href="/community-Partner" data-cy="communitypartners">Community Partners</a>
 {#                    <a class="dropdown-item" href="/community-Partner-Type" data-cy="communitypartnertype">Community Partner Types</a>#}
                     <a class="dropdown-item" href="/city-District" data-cy="citydistricts">City Districts</a>
 {#                    <a class="dropdown-item" href="/project-Map" data-cy="projects">Projects</a>#}
@@ -101,10 +101,10 @@
                                 {% if user.is_authenticated %}
                                     <a data-cy="Focus Areas" class="dropdown-item" href="/missionchart">Focus Areas</a>
                                     <a data-cy="Engagement Types" class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
+{#                                    Uncomment this code if below 4 charts need to be added back to navigation menu.#}
 {#                                    <a data-cy="Focus Area Analysis" class="dropdown-item" href="/issueaddress">Focus Area Analysis</a> {% if user.is_superuser %}#}
 {#                                    <a data-cy="Project and Partner Trends" class="dropdown-item" href="/trendreport">Project and Partner Trends </a> {% endif %}#}
 {#                                    <a data-cy="Network Analysis" class="dropdown-item" href="/networkanalysis">Network Analysis</a>#}
-{##}
 {#                                    <a data-cy="Partner Intensity" class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>#}
                                 {% else %}
                                     <a data-cy="Focus Areas" class="dropdown-item" href="/missionchart">Focus Areas</a>
@@ -122,7 +122,8 @@
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                        <a class="dropdown-item" href="/allProjects/" data-cy="allprojects">All Projects</a>
+                        {#Uncomment this code if below 4 charts need to be added back to navigation menu#}
+                        {#<a class="dropdown-item" href="/allProjects/" data-cy="allprojects">All Projects</a>#}
                         <a class="dropdown-item" href='/myProjects/' data-cy="myprojects">My Projects</a>
                         <a class="dropdown-item" href='/check-Project/' data-cy="createproject">Create Project</a>
                         <a class="dropdown-item" href='/myDrafts/' data-cy="mydrafts">My Drafts</a>

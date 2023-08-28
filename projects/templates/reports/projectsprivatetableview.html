@@ -440,7 +440,9 @@
                     <th class="none">Topics:</th>
                     <th class="none">Other Topics:</th>
                     <th class="none">Description:</th>
-                    <th class="none">Subtags:</th>
+                    {% if user.is_superuser %}
+                    <th class="none">Action</th>
+                    {%  endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -453,7 +455,6 @@
                         <td data-cy="campusPartner-table">{{ project.campus_partner.all|join:", "}}</td>
                         <td data-cy="engagementtype-table">{{ project.engagement_type}}</td>
                         <td data-cy="activityType-table">{{ project.activity_type }}</td>
-{#                        <td data-cy="other_activity_type">{{ project.other_activity_type }}</td>#}
                         {% if project.other_activity_type %}
                             <td data-cy="other_activity_type">{{ project.other_activity_type }}</td>
                         {% else %}
@@ -481,7 +482,9 @@
                             {% endfor %}
                         </td>
                         <td data-cy="description">{{ project.description }}</td>
-                        <td></td>
+                    {% if user.is_superuser %}
+                        <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;"><i class="fa fa-edit"></i> Edit</a> </td>
+                    {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -578,12 +581,7 @@
                     ]
                 },
                 columnDefs: [
-                    // hiding tags from column 21 and making it searchable in the data table
-                    {
-                        "targets": [21],
-                        "visible": false,
-                        "searchable": true
-                    },
+
                     // // hiding uno faculty hours
                     {
                         "targets": [13],

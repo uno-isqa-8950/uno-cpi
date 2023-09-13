@@ -896,7 +896,7 @@ def communityPublicReport(request):
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     for obj in cursor.fetchall():
-        proj_ids = obj[6]
+        proj_ids = obj[4]
         proj_idList = ''
         if proj_ids is not None:
             name_count = 0

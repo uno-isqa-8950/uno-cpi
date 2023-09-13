@@ -131,9 +131,11 @@
                 </li>
             {% endif %}
 
+            {% if user.is_authenticated %}
             <li class=" nav-item dropdown">
                 <a id="partners" class="nav-link" href='/partners' data-cy="partners"><i class="fa fa-handshake-o"></i>Partners</a>
             </li>
+            {% endif %}
 
             <li class=" nav-item dropdown">
                 <a id="resourcesnav" data-cy="resourcesnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">

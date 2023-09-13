@@ -61,7 +61,8 @@ describe('Home Page Public user', () => {
     it('Navigation bar options', function() {
         cy.get('[data-cy=navbar]').should('contain.text', 'Maps')
             .and('contain.text', 'Analytics')
-            .and('contain.text', 'Partners')
+             //Uncomment the below code if Partners menu item is required for public user
+            //.and('contain.text', 'Partners')
             .and('contain.text', 'Resources')
             .and('contain.text', 'Login')
     })

@@ -260,7 +260,7 @@
                             {% if  community.Projects  < 1 %}
                                 {{community.Projects}}
                             {% else %}
-                                <a href="{% url 'projectsprivatereport' %}?proj_id_list={{ community.proj_id_list }}" target="_blank" class="class1">{{ community.Projects }}</a>
+                                <a href="{% url 'projectprivatetableview' %}?proj_id_list={{ community.proj_id_list }}" target="_blank" class="class1">{{ community.Projects }}</a>
                             {% endif %}
                             {#                    {{community.project_count}}#}
                         </td>

@@ -156,7 +156,7 @@ describe('Engagement Types Report Public User', () => {
             .parent()
             .find('a[data-cy=projectcount]').invoke('attr', 'target', '_self').click()
         cy.get('[data-cy="heading"]').should('contain.text', 'Projects Report')
-        cy.url().should('contain', Cypress.env('baseUrl')+'projectspublicreport/')
+        cy.url().should('contain', Cypress.env('baseUrl')+'projectspublictableview/')
     })
     it("Search in Engagement type Report", function() {
         cy.get('[data-cy=analytics]').contains('Analytics').click()

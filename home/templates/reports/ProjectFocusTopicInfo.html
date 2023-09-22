@@ -287,7 +287,7 @@ $(document).ready(function(){
                 <td><b>
                     {% if  focus.project_count  < 1 %}
                         {{focus.project_count}}
-                        {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ focus.proj_id_list }}" target="_blank" class="class1">{{focus.project_count}}</a>
+                        {% else %}<a href="{% url 'projectspublictableview' %}?proj_id_list={{ focus.proj_id_list }}" target="_blank" class="class1">{{focus.project_count}}</a>
                     {% endif %}
                 </b></td>
                 <td><b>
@@ -313,7 +313,7 @@ $(document).ready(function(){
                 <td>
                     {% if  topic.project_count  < 1 %}
                         {{topic.project_count}}
-                        {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ topic.proj_id_list }}" target="_blank" class="class1">{{topic.project_count}}</a>
+                        {% else %}<a href="{% url 'projectspublictableview' %}?proj_id_list={{ topic.proj_id_list }}" target="_blank" class="class1">{{topic.project_count}}</a>
                     {% endif %}
                 </td>
                 <td><b>

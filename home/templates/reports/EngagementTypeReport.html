@@ -239,8 +239,8 @@
                 {% if  e.project_count  < 1 %}
                 {{e.project_count}}
                 {% else %}
-                {% if user.is_authenticated %} <a href="{% url 'projectsprivatereport' %}?proj_id_list={{ e.project_id_list }}" target="_blank" class="class1" data-cy="projectcount">{{e.project_count}}</a>
-                {% else %} <a href="{% url 'projectspublicreport' %}?proj_id_list={{ e.project_id_list }}" target="_blank" class="class1" data-cy="projectcount">{{e.project_count}}</a>
+                {% if user.is_authenticated %} <a href="{% url 'projectprivatetableview' %}?proj_id_list={{ e.project_id_list }}" target="_blank" class="class1" data-cy="projectcount">{{e.project_count}}</a>
+                {% else %} <a href="{% url 'projectspublictableview' %}?proj_id_list={{ e.project_id_list }}" target="_blank" class="class1" data-cy="projectcount">{{e.project_count}}</a>
                 {% endif %}
                 {% endif %}</td>
 

@@ -117,7 +117,7 @@ describe('Focus Area Reports Public user', () => {
             .parent()
             .find('a[data-cy=project_count]').invoke('attr', 'target', '_self').click()
         cy.get('[data-cy="heading"]').should('contain.text', 'Projects Report')
-        cy.url().should('contain', Cypress.env('baseUrl')+'projectspublicreport/')
+        cy.url().should('contain', Cypress.env('baseUrl')+'projectspublictableview/')
     })
     it("Check tooltip text for 7 focus areas", function() {
         cy.get('[data-cy=analytics]').contains('Analytics').click()

@@ -474,6 +474,7 @@ a.button {
     border: none;
     font-weight: 400;
     background: #417690;
+    display: inline-block;
 }
 
 .button.default:active, input[type=submit].default:active,
@@ -678,17 +679,21 @@ div.breadcrumbs a:focus, div.breadcrumbs a:hover {
 }
 
 .deletelink {
-    padding-left: 16px;
+    padding-left: 10px;
     background: url(../img/icon-deletelink.svg) 0 1px no-repeat;
+    width: 40px;
+    display: inline-block;
 }
 
 a.deletelink:link, a.deletelink:visited {
     color: #CC3434;
+    display: inline-block;
 }
 
 a.deletelink:focus, a.deletelink:hover {
     color: #993333;
     text-decoration: none;
+    display: inline-block;
 }
 
 /* OBJECT TOOLS */

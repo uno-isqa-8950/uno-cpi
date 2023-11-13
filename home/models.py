@@ -4,10 +4,9 @@ from django.core.validators import MinLengthValidator
 from django.core.validators import MaxLengthValidator
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractUser
-from wagtail.core.models import Page
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel, PageChooserPanel
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.models import Page
+from wagtail.fields import RichTextField, StreamField
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel,PageChooserPanel
 from .blocks import BaseStreamBlock
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.snippets.models import register_snippet
@@ -32,11 +31,11 @@ class HomePage(Page):
 
     # Body section of the HomePage
     body = StreamField(
-        BaseStreamBlock(), verbose_name="Home content block", blank=True
+        BaseStreamBlock(), verbose_name="Home content block", blank=True,use_json_field=True
     )
 
     bottom = StreamField(
-        BaseStreamBlock(), verbose_name="Home content block", blank=True
+        BaseStreamBlock(), verbose_name="Home content block", blank=True,use_json_field=True
     )
 
     # Promo section of the HomePage
@@ -113,15 +112,15 @@ class HomePage(Page):
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            ImageChooserPanel('image'),
+            FieldPanel('image'),
             FieldPanel('hero_text', classname="full"),
         ], heading="Hero section"),
         MultiFieldPanel([
-            ImageChooserPanel('promo_image'),
+            FieldPanel('promo_image'),
             FieldPanel('promo_title'),
             FieldPanel('promo_text'),
         ], heading="Promo section"),
-        StreamFieldPanel('body'),
+        FieldPanel('body'),
         MultiFieldPanel([
             MultiFieldPanel([
                 FieldPanel('featured_section_1_title'),
@@ -136,7 +135,7 @@ class HomePage(Page):
                 PageChooserPanel('featured_section_3'),
             ])
         ], heading="Featured homepage sections", classname="collapsible"),
-        StreamFieldPanel('bottom')
+        FieldPanel('bottom')
     ]
 
     def __str__(self):
@@ -159,7 +158,7 @@ class BlogPage(Page):
         help_text='Landscape mode only; horizontal width between 1000px and 3000px.'
     )
     body = StreamField(
-        BaseStreamBlock(), verbose_name="Page body", blank=True
+        BaseStreamBlock(), verbose_name="Page body", blank=True,use_json_field=True
     )
     subtitle = models.CharField(blank=True, max_length=255)
     external_link = models.CharField(blank=True, max_length=255)
@@ -167,8 +166,8 @@ class BlogPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('subtitle', classname="full"),
         FieldPanel('introduction', classname="full"),
-        ImageChooserPanel('image'),
-        StreamFieldPanel('body'),
+        FieldPanel('image'),
+        FieldPanel('body'),
         FieldPanel('external_link', classname="full"),
     ]
 
@@ -194,7 +193,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
 
     content_panels = Page.content_panels + [
         FieldPanel('introduction', classname="full"),
-        ImageChooserPanel('image'),
+        FieldPanel('image'),
     ]
 
     # Speficies that only BlogPage objects can live under this index page

@@ -157,7 +157,7 @@ def redirectUNOUser(request, key):
             return render(request, 'registration/login.html', {'form': LoginForm()})
     else:
         print('Error in SAML response, Please ccontact system administration.')
-        messages.error(request, 'Error in SAML response, Please ccontact system administration.')
+        messages.error(request, 'Error in SAML response, Please contact system administration.')
         return render(request, 'registration/login.html', {'form': LoginForm()})
 
 

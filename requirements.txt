@@ -41,7 +41,7 @@ djangorestframework==3.14.0
 draftjs-exporter==2.1.7
 et-xmlfile==1.1.0
 exceptiongroup==1.1.0
-fonttools==4.38.0
+fonttools==4.43.0
 googlemaps==4.10.0
 gunicorn==20.1.0
 html5lib==1.1

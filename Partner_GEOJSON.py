@@ -51,16 +51,40 @@ collection = {'type': 'FeatureCollection', 'features': []}
 # Function that generates GEOJSON
 def feature_from_row(Community, commId, Address, Mission, MissionType, City, CommunityType, longitude, latitude,
                      Website, Cec_status, legislative_district):
-    feature = {'type': 'Feature',
-               'properties': {'CommunityPartner': '', 'Address': '', 'Projects': '',
-                              'College Name': '', 'Mission Type': '', 'Project Name': '',
-                              'Legislative District Number': '', 'Number of projects': '',
-                              'Income': '', 'City': '', 'County': '', 'Mission Area': '',
-                              'CommunityType': '', 'Campus Partner': '',
-                              'Academic Year': '', 'Website': '', 'Community CEC Status': ''},
-               'geometry': {'type': 'Point', 'coordinates': []},
-               'communityprojects': [
-                   {'name': '', 'academicYear': [], 'campuspartner': [], 'engagementType': '', 'collegeNames': []}]
+    feature = {
+        'type': 'Feature',
+        'properties': {
+            'CommunityPartner': '',
+            'Address': '',
+            'Projects': '',
+            'College Name': '',
+            'Mission Type': '',
+            'Project Name': '',
+            'Legislative District Number': '',
+            'Number of projects': '',
+            'Income': '',
+            'City': '',
+            'County': '',
+            'Mission Area': '',
+            'CommunityType': '',
+            'Campus Partner': '',
+            'Academic Year': '',
+            'Website': '',
+            'Community CEC Status': ''
+        },
+        'geometry': {
+            'type': 'Point',
+            'coordinates': []
+        },
+        'communityprojects': [
+                   {
+                       'name': '',
+                       'academicYear': [],
+                       'campuspartner': [],
+                       'engagementType': '',
+                       'collegeNames': []
+                   }
+        ]
                }
     feature['geometry']['coordinates'] = [longitude, latitude]
     coord = Point([longitude, latitude])
@@ -198,6 +222,23 @@ select_comm_partner = "SELECT distinct pc.name as Community_Partner, pc.id as co
 
 cursor.execute(select_comm_partner)
 commPartnerList = cursor.fetchall()
+
+count_partners = repr(len(commPartnerList)) if len(commPartnerList) != 0 else 0
+previous_file = 'home/static/GEOJSON/Partner.geojson'
+previous_count = 0
+
+try:
+    with open(previous_file, 'r') as file:
+        previous_geojson = json.load(file)
+        previous_count = int(previous_geojson.get('total_count', 0))
+except FileNotFoundError:
+    print("Previous file not found.")
+except json.JSONDecodeError:
+    print("Error reading JSON from the previous file.")
+
+geojson_with_count = {'type': 'FeatureCollection', 'total_count': count_partners, 'previous_file_count': previous_count,'features': []}
+geojson_with_count['features'] = collection['features']
+
 if commPartnerList is not None:
     print('length of comm partners---', len(commPartnerList))
     for obj in commPartnerList:
@@ -211,7 +252,7 @@ if commPartnerList is not None:
         feature = feature_from_row(obj[0], obj[1], str(fulladdress), obj[7], obj[8], obj[4], obj[11], obj[13], obj[14],
                                    obj[12], obj[15], obj[9])
         collection['features'].append(feature)
-    jsonstring = pd.io.json.dumps(collection)
+    jsonstring = pd.io.json.dumps(geojson_with_count,indent=2)
     logger.info("Community Partners GEOSON is written at output directory" + str(output_filename))
     with open(output_filename, 'w') as output_file:
         output_file.write(format(jsonstring))

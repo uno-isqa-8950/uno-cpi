@@ -35,9 +35,10 @@ class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     resource_class = ProjectResource
     list_filter = ['academic_year']
+
+    #Remove subcategory as mandatory filed from admin panel
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
-        # Remove the 'Subcategory' field from the required fields
         form.base_fields['subcategory'].required = False
         return form
 

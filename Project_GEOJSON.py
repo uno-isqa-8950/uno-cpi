@@ -11,20 +11,21 @@ from django.conf import settings
 from UnoCPI import settings
 import logging
 
-#Get lat long details of all US counties in json format
-logger=logging.getLogger("UNO CPI RUN PROJECT GEOSON")
+# Get lat long details of all US counties in json format
+logger = logging.getLogger("UNO CPI RUN PROJECT GEOSON")
 dirname = os.path.dirname(__file__)
-county_file = os.path.join(dirname,'home/static/GEOJSON/USCounties_final.geojson')
-district_file = os.path.join(dirname,'home/static/GEOJSON/ID3.geojson')
-output_filename = os.path.join(dirname,'home/static/GEOJSON/Project.geojson') #The file will be saved under static/GEOJSON
+county_file = os.path.join(dirname, 'home/static/GEOJSON/USCounties_final.geojson')
+district_file = os.path.join(dirname, 'home/static/GEOJSON/ID3.geojson')
+output_filename = os.path.join(dirname,
+                               'home/static/GEOJSON/Project.geojson')  # The file will be saved under static/GEOJSON
 currentDT = datetime.datetime.now()
 
 conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
-                              password=settings.DATABASES['default']['PASSWORD'],
-                              host=settings.DATABASES['default']['HOST'],
-                              port=settings.DATABASES['default']['PORT'],
-                              database=settings.DATABASES['default']['NAME'],
-                              sslmode="disable")
+                        password=settings.DATABASES['default']['PASSWORD'],
+                        host=settings.DATABASES['default']['HOST'],
+                        port=settings.DATABASES['default']['PORT'],
+                        database=settings.DATABASES['default']['NAME'],
+                        sslmode="disable")
 
 if (conn):
     cursor = conn.cursor()
@@ -47,7 +48,7 @@ or pro.city not in ('','NA','N/A') or pro.state not in ('','NA','N/A')) \
 and pro.longitude is not null \
 and pro.latitude is not null \
 and ps.name != 'Drafts' \
-and lower(mis.mission_type)='primary'",con=conn)
+and lower(mis.mission_type)='primary'", con=conn)
 
 ##Get all the Campus Partners and College Names
 df = pd.read_sql_query("select pro.project_name, \
@@ -70,9 +71,10 @@ df = pd.read_sql_query("select pro.project_name, \
     left join projects_projectmission pp2 on pro.id = pp2.project_name_id and lower(pp2.mission_type)='primary' \
     join home_missionarea hm on pp2.mission_id = hm.id \
     left join partners_communitytype c on p.community_type_id = c.id \
-    left join partners_cecpartnerstatus ces on p.cec_partner_status_id = ces.id",con=conn)
-logger.info("Campus partner and college name for Projects of  " + repr(len(df)) + " records are generated at " + str(currentDT))
-#conn.close()
+    left join partners_cecpartnerstatus ces on p.cec_partner_status_id = ces.id", con=conn)
+logger.info(
+    "Campus partner and college name for Projects of  " + repr(len(df)) + " records are generated at " + str(currentDT))
+# conn.close()
 
 if len(df) == 0:
     logger.critical("No Projects fetched from the Database on " + str(currentDT))
@@ -80,30 +82,51 @@ else:
     logger.info(repr(len(df)) + "Projects are in the Database on " + str(currentDT))
 
 collection = {'type': 'FeatureCollection', 'features': []}
-df_projects['fulladdress'] = df_projects[["address_line1", "city","state"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
+df_projects['fulladdress'] = df_projects[["address_line1", "city", "state"]].apply(lambda x: ' '.join(x.astype(str)),
+                                                                                   axis=1)
 with open(district_file) as f:
     geojson = json.load(f)
 district = geojson["features"]
 
-def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, State, longitude,latitude, Zip,legislative_district):
-    feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Engagement Type': '', 'Activity Type': '',
-                                                 'Description': '', 'Academic Year': '',
-                                                 'Legislative District Number':'','College Name': '',
-                                                 'Campus Partner': '', 'Community Partner':'', 'Mission Area':'','Community Partner Type':'',
-                                                 'Address Line1':'', 'City':'', 'State':'', 'Zip':'','Community CEC status':''},
-               'geometry': {'type': 'Point', 'coordinates': []}
-               }
 
-  
+def feature_from_row(Projectname, Description, FullAddress, Address_line1, City, State, longitude, latitude, Zip,
+                     legislative_district):
+    feature = {
+        'type': 'Feature',
+        'properties': {
+            'Project Name': '',
+            'Engagement Type': '',
+            'Activity Type': '',
+            'Description': '',
+            'Academic Year': '',
+            'Legislative District Number': '',
+            'College Name': '',
+            'Campus Partner': '',
+            'Community Partner': '',
+            'Mission Area': '',
+            'Community Partner Type': '',
+            'Address Line1': '',
+            'City': '',
+            'State': '',
+            'Zip': '',
+            'Community CEC status': ''
+        },
+        'geometry': {
+            'type': 'Point',
+            'coordinates': []
+        }
+    }
+
     feature['geometry']['coordinates'] = [longitude, latitude]
     coord = Point([longitude, latitude])
-    print('latitude--',latitude, ' longitude--',longitude, ' address--',FullAddress,' Projectname--', Projectname)
+    print('latitude--', latitude, ' longitude--', longitude, ' address--', FullAddress, ' Projectname--', Projectname)
     for i in range(len(district)):  # iterate through a list of district polygons
         property = district[i]
         polygon = shape(property['geometry'])  # get the polygons
         if polygon.contains(coord):  # check if a partner is in a polygon
-            feature['properties']['Legislative District Number'] = property["properties"]["DISTRICT"]  # assign the district number to a partner
-    
+            feature['properties']['Legislative District Number'] = property["properties"][
+                "DISTRICT"]  # assign the district number to a partner
+
     yearlist = []
     campusPartnersList = []
     communityPartnerList = []
@@ -136,24 +159,25 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
             if (end_academic_year[n] not in yearlist):
                 yearlist.append(end_academic_year[n])
 
-            if (academicYear[n] is not None and end_academic_year[n] is not None):   
-                print('academicYear[n]---', str(academicYear[n]))  
-                print('end_academic_year[n]---', str(end_academic_year[n]))            
+            if (academicYear[n] is not None and end_academic_year[n] is not None):
+                print('academicYear[n]---', str(academicYear[n]))
+                print('end_academic_year[n]---', str(end_academic_year[n]))
                 cursor.execute("select academic_year from projects_academicyear \
                     where id < (select id from projects_academicyear where academic_year = %s) \
-                    and id > (select id from projects_academicyear where academic_year = %s)", (str(end_academic_year[n]), str(academicYear[n]), ))
-                #conn.commit()
+                    and id > (select id from projects_academicyear where academic_year = %s)",
+                               (str(end_academic_year[n]), str(academicYear[n]),))
+                # conn.commit()
                 academicList = cursor.fetchall()
                 if len(academicList) != 0:
                     for obj in academicList:
-                         if (obj[0] not in yearlist):
-                             yearlist.append(obj[0])
+                        if (obj[0] not in yearlist):
+                            yearlist.append(obj[0])
                 else:
                     print('Academic Year not found')
-            
+
             if (communityPartners[n] not in communityPartnerList):
                 communityPartnerList.append(communityPartners[n])
-               
+
             if (communityPartnerType[n] not in communityTypeList):
                 communityTypeList.append(communityPartnerType[n])
             if (missionAreas[n] not in missionAreaList):
@@ -169,9 +193,9 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
     except ValueError:
         projname = ProjectFullname
     else:
-        for i in range(0,len(ProjectFullname)-1):
+        for i in range(0, len(ProjectFullname) - 1):
             projname += ProjectFullname[i]
-             
+
     feature['properties']['Project Name'] = projname
     feature['properties']['Engagement Type'] = engagementTypeList
     feature['properties']['Activity Type'] = activityTypeList
@@ -181,21 +205,40 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
     feature['properties']['Campus Partner'] = campusPartnersList
     feature['properties']['Community Partner'] = communityPartnerList
     feature['properties']['Mission Area'] = missionAreaList
-    feature['properties']['Community Partner Type']=communityTypeList
+    feature['properties']['Community Partner Type'] = communityTypeList
     feature['properties']['Address Line1'] = Address_line1
     feature['properties']['City'] = City
     feature['properties']['State'] = State
     feature['properties']['Zip'] = Zip
     feature['properties']['Community CEC status'] = communityCecStatusList
-   
+
     collection['features'].append(feature)
     return feature
 
+
+count_projects = repr(len(df_projects)) if len(df_projects) != 0 else 0
+previous_file = 'home/static/GEOJSON/Project.geojson'
+previous_count = 0
+
+try:
+    with open(previous_file, 'r') as file:
+        previous_geojson = json.load(file)
+        previous_count = int(previous_geojson.get('total_count', 0))
+except FileNotFoundError:
+    print("Previous file not found.")
+except json.JSONDecodeError:
+    print("Error reading JSON from the previous file.")
+
+geojson_with_count = {'type': 'FeatureCollection', 'total_count': count_projects, 'previous_file_count': previous_count,
+                      'features': []}
+geojson_with_count['features'] = collection['features']
 if len(df_projects) != 0:
-    geojson_series = df_projects.apply(lambda x: feature_from_row(x['project_name'], x['description'],\
-         str(x['fulladdress']),str(x['address_line1']), str(x['city']), str(x['state']), \
-              x['longitude'], x['latitude'], str(x['zip']), x['legislative_district']), axis=1)
-    jsonstring = pd.io.json.dumps(collection)
+    geojson_series = df_projects.apply(lambda x: feature_from_row(x['project_name'], x['description'], \
+                                                                  str(x['fulladdress']), str(x['address_line1']),
+                                                                  str(x['city']), str(x['state']), \
+                                                                  x['longitude'], x['latitude'], str(x['zip']),
+                                                                  x['legislative_district']), axis=1)
+    jsonstring = pd.io.json.dumps(geojson_with_count, indent=2)
     cursor.close()
     conn.close()
 
@@ -205,19 +248,23 @@ if len(df_projects) != 0:
         output_file.write(format(jsonstring))
 
 # Log when the Script ran
-logger.info("Project GeoJSON  "+ repr(len(df_projects)) + " records are generated at "+ str(currentDT))
+logger.info("Project GeoJSON  " + repr(len(df_projects)) + " records are generated at " + str(currentDT))
 
-#writing into amazon aws s3
-ACCESS_ID=settings.AWS_ACCESS_KEY_ID
-ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
+# writing into amazon aws s3
+ACCESS_ID = settings.AWS_ACCESS_KEY_ID
+ACCESS_KEY = settings.AWS_SECRET_ACCESS_KEY
 s3 = boto3.resource('s3',
-         aws_access_key_id=ACCESS_ID,
-         aws_secret_access_key= ACCESS_KEY)
+                    aws_access_key_id=ACCESS_ID,
+                    aws_secret_access_key=ACCESS_KEY)
 
 if len(df_projects) == 0:
-    print("Project GEOJSON file NOT written having total records of " +repr(len(df_projects))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-    logger.info("Partner GEOJSON file NOT written having total records of " +repr(len(df_projects))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+    print("Project GEOJSON file NOT written having total records of " + repr(
+        len(df_projects)) + " in S3 bucket " + settings.AWS_STORAGE_BUCKET_NAME + " at " + str(currentDT))
+    logger.info("Partner GEOJSON file NOT written having total records of " + repr(
+        len(df_projects)) + " in S3 bucket " + settings.AWS_STORAGE_BUCKET_NAME + " at " + str(currentDT))
 else:
     s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
-    print("Project GEOJSON file written having total records of " +repr(len(df_projects))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-    logger.info("Project GEOJSON file written having total records of " +repr(len(df_projects))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+    print("Project GEOJSON file written having total records of " + repr(
+        len(df_projects)) + " in S3 bucket " + settings.AWS_STORAGE_BUCKET_NAME + " at " + str(currentDT))
+    logger.info("Project GEOJSON file written having total records of " + repr(
+        len(df_projects)) + " in S3 bucket " + settings.AWS_STORAGE_BUCKET_NAME + " at " + str(currentDT))

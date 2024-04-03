@@ -58,7 +58,7 @@ opencv-python-headless==4.7.0.68
 openpyxl==3.1.1
 packaging==23.0
 pandas==1.5.3
-Pillow==10.2.0
+Pillow==10.3.0
 pluggy==1.0.0
 point==0.0.1
 psycopg2==2.9.5

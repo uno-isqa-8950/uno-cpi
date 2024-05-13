@@ -320,11 +320,6 @@
                             Campus Partners
                         </label>
                         <select  id="id_campus_partner" name="campus_partner" data-cy="id_campus_partner">
-                            {#                        <option> All </option>#}
-                            {##}
-                            {#                        {% for campus in campus_filter.form.campus_partner %}#}
-                            {#                            {{campus}}#}
-                            {#                        {% endfor %}#}
                             <option > All </option>
                             <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
 
@@ -383,6 +378,16 @@
                             {% endfor %}
                         </select>
                     </div>
+                    <div class="col-lg-4 col-md-5 form-group">
+                        <label for="project_name" style="padding-bottom: 0;">
+        <span tabindex="-1" data-toggle="tooltip" title="{% get_data_definition_desc 'Project Name' %}" class="float">
+            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i>
+        </span>
+                            Project Name
+                        </label>
+                        <input type="text" id="id_project_name" name="project_name" placeholder="Enter Project Name"
+                               data-cy="project-name" style="height: 30px;margin-top: 5px;">
+                    </div>
 
 
                 </form>
@@ -395,6 +400,7 @@
         <!--<div class = "panel panel-default" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">-->
         <!--<div class="panel-body">-->
         <div class="box" data-cy="box">
+        <div><a href="#bottom" class="scroll-to-bottom" style="color: crimson; float: right;">▼</a></div>
 
             <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%" data-cy="example">
                 <thead>
@@ -422,6 +428,18 @@
                                title="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                     Campus Partners
+                    </th>
+                       <th class="all">
+                        <span tabindex="-1" data-toggle="tooltip" data-placement="bottom"
+                               title="{% get_data_definition_desc 'Created At' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                    Created At
+                    </th>
+                    <th class="all">
+                        <span tabindex="-1" data-toggle="tooltip" data-placement="bottom"
+                               title="{% get_data_definition_desc 'Updated At' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                    Updated At
                     </th>
                     <th class="none">Engagement Type:</th>
                     <th class="none">Activity Type:</th>
@@ -453,6 +471,8 @@
                         <td data-cy="mission-table">{{ project.mission_area.all|join:", " }}</td>
                         <td data-cy="communityPartner-table">{{ project.community_partner.all|join:", " }}</td>
                         <td data-cy="campusPartner-table">{{ project.campus_partner.all|join:", "}}</td>
+                        <td data-cy="updatedAt-table">{{ project.updated_date}}</td>
+                        <td data-cy="createdAt-table">{{ project.created_date }}</td>
                         <td data-cy="engagementtype-table">{{ project.engagement_type}}</td>
                         <td data-cy="activityType-table">{{ project.activity_type }}</td>
                         {% if project.other_activity_type %}
@@ -519,6 +539,7 @@
 
                 &nbsp;&nbsp;&nbsp;
                     <a href="#top" class="scroll-to-top" style="color: crimson;">▲</a>
+                    <a name="bottom"></a>
 
         </div>
     </div>
@@ -737,7 +758,11 @@
      <script>
         const selectEl = document.getElementById("id_academic_year");
         const options = Array.from(selectEl.options);
-        options.sort((a, b) => b.value.localeCompare(a.value));
+        options.sort((a, b) => {
+          const valueA = parseInt(a.value);
+          const valueB = parseInt(b.value);
+          return valueB - valueA;
+        });
         selectEl.innerHTML = '';
         options.forEach((option) => selectEl.add(option));
     </script>

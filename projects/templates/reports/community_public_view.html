@@ -357,7 +357,11 @@ $(document).ready(function(){
 <script>
         const selectEl = document.getElementById("id_academic_year");
         const options = Array.from(selectEl.options);
-        options.sort((a, b) => b.value.localeCompare(a.value));
+        options.sort((a, b) => {
+          const valueA = parseInt(a.value);
+          const valueB = parseInt(b.value);
+          return valueB - valueA;
+        });
         selectEl.innerHTML = '';
         options.forEach((option) => selectEl.add(option));
     </script>

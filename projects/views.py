@@ -431,6 +431,50 @@ def editProject(request, pk):
                         sc.save()
                         subcategory = str(sc.sub_category);
 
+                try:
+                    # Clear existing associations
+                    Project.objects.get(id=pk).community_partner.clear()
+
+                    # Add new associations from the form
+                    endprojectcommunity = ProjectCommunityPartner.objects.filter(project_name__id=pk)
+                    for projcom in endprojectcommunity:
+                        Project.objects.get(id=pk).community_partner.add(projcom.community_partner)
+                except Exception as e:
+                    print(e)
+                try:
+                    # Clear existing associations
+                    Project.objects.get(id=pk).mission_area.clear()
+
+                    # Add new associations from the form
+                    endprojectmission = ProjectMission.objects.filter(project_name__id=pk)
+                    for projmis in endprojectmission:
+                        Project.objects.get(id=pk).mission_area.add(projmis.mission)
+                except Exception as e:
+                    print(e)
+
+                # Handling ProjectCampusPartner associations
+                try:
+                    # Clear existing associations
+                    Project.objects.get(id=pk).campus_partner.clear()
+
+                    # Add new associations from the form
+                    endprojectcampus = ProjectCampusPartner.objects.filter(project_name__id=pk)
+                    for projcamp in endprojectcampus:
+                        Project.objects.get(id=pk).campus_partner.add(projcamp.campus_partner)
+                except Exception as e:
+                    print(e)
+
+                # Handling ProjectSubCategory associations
+                try:
+                    # Clear existing associations
+                    Project.objects.get(id=pk).subcategory.clear()
+
+                    # Add new associations from the form
+                    endprojectsub = ProjectSubCategory.objects.get(project_name__id=pk)
+                    Project.objects.get(id=pk).subcategory.add(endprojectsub.sub_category)
+                except Exception as e:
+                    print(e)
+
                 if request.user.is_superuser == True:
                     # return HttpResponseRedirect('/allProjects')
                     return HttpResponseRedirect('/adminsubmit_project_done')
@@ -488,8 +532,6 @@ def editProject(request, pk):
 
         # print(mission_areas)
         # selectedMisson = proj_mission.mission_id
-        proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id=pk)
-        proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id=pk)
         # course_details = course(instance= x)
         # formset_missiondetails = mission_edit_details(instance=x, prefix='mission_edit')
         formset_comm_details = proj_comm_part_edit(instance=x, prefix='community_edit')
@@ -515,7 +557,7 @@ def editProject(request, pk):
 def showAllProjects(request):
     context = filter_projects(request)
     project_list = context['project']
-    paginator = Paginator(project_list, 100)  # Show 100 projects per page
+    paginator = Paginator(project_list, 200)  # Show 200 projects per page
     page = request.GET.get('page', 1)
     try:
         cards = paginator.page(page)
@@ -557,7 +599,7 @@ def projectstablePublicReport(request):
     else:
         project_return = context['project']
 
-    paginator = Paginator(project_return, 100)
+    paginator = Paginator(project_return, 200)
     page = request.GET.get('page', 1)
     try:
         cards = paginator.page(page)
@@ -704,7 +746,7 @@ def projectstablePrivateReport(request):
     else:
         project_return = context['project']
 
-    paginator = Paginator(project_return, 100)
+    paginator = Paginator(project_return, 200)
     page = request.GET.get('page', 1)
     try:
         cards = paginator.page(page)
@@ -1001,7 +1043,7 @@ def communityPrivateReport(request):
     max_yr_id = max(yrs)
 
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
@@ -1472,7 +1514,7 @@ def filter_projects(request):
 
     academic_year_filter = request.GET.get('academic_year', None)
     if academic_year_filter == None:
-        academic_year_filter = AcademicYear.objects.latest('id')
+        academic_year_filter = AcademicYear.objects.order_by('id').reverse()[1]
     # this reads as: if the academic year filter has something in it, take all projects with that year as the
     # starting year, ending year, or a year in between, and everything after the '|' is to catch projects without an end year
     if academic_year_filter is not None and academic_year_filter != "All" and academic_year_filter != '':
@@ -1500,6 +1542,12 @@ def filter_projects(request):
 
     elif cec_part_selection == "CURR_CAMP":
         project_list = project_list.filter(campus_partner__cec_partner_status__name='Current')
+
+    project_name_filter = request.GET.get('project_name', None)
+
+    # If a project name filter value is provided, filter the project list
+    if project_name_filter:
+        project_list = project_list.filter(project_name__icontains=project_name_filter)
 
     unique_project_set = set(project_list)
     project_list = list(unique_project_set)

@@ -366,7 +366,16 @@
                             {% endfor %}
                         </select>
                     </div>
-
+                    <div class="col-lg-4 col-md-5 form-group">
+                        <label for="project_name" style="padding-bottom: 0;">
+        <span tabindex="-1" data-toggle="tooltip" title="{% get_data_definition_desc 'Project Name' %}" class="float">
+            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i>
+        </span>
+                            Project Name
+                        </label>
+                        <input type="text" id="id_project_name" name="project_name" placeholder="Enter Project Name"
+                               data-cy="project-name" style="height: 30px;margin-top: 5px;">
+                    </div>
 
                 </form>
             </div>
@@ -703,7 +712,11 @@
     <script>
         const selectEl = document.getElementById("id_academic_year");
         const options = Array.from(selectEl.options);
-        options.sort((a, b) => b.value.localeCompare(a.value));
+        options.sort((a, b) => {
+          const valueA = parseInt(a.value);
+          const valueB = parseInt(b.value);
+          return valueB - valueA;
+        });
         selectEl.innerHTML = '';
         options.forEach((option) => selectEl.add(option));
     </script>

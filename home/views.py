@@ -1140,8 +1140,7 @@ def project_partner_info_admin(request):
                    'camp_total': camp_total, 'k12_stu_total': k12_stu_total, 'k12_hr_total': k12_hr_total,
                    'hours_total': hours_total})
 
-
-def engagement_info(request):
+# def engagement_info(request):
     data_definition = DataDefinition.objects.all()
     data_list = []
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
@@ -1294,7 +1293,7 @@ def engagement_info(request):
 
     cursor.execute(query_end)
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
-
+    # print(cursor.fetchall())
     for obj in cursor.fetchall():
         comm_ids = obj[5]
         proj_ids = obj[3]
@@ -1341,6 +1340,181 @@ def engagement_info(request):
              "community_count": obj[4], "comm_id_list": comm_idList, "campus_count": obj[6],
              "total_uno_students": sum_uno_students,
              "total_uno_hours": sum_uno_hours})
+
+    return render(request, 'reports/EngagementTypeReport.html',
+                  {'college_filter': college_partner_filter, 'missions_filter': missions_filter,
+                   'year_filter': year_filter, 'engagement_List': data_list,
+                   'data_definition': data_definition, 'communityPartners': communityPartners,
+                   'campus_filter': campus_project_filter, 'campus_id': campus_id,
+                   'cec_part_choices': cec_part_choices})
+def engagement_info(request):
+    data_definition = DataDefinition.objects.all()
+    data_list = []
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    # campus_filter_qs = CampusPartner.objects.all()
+    # campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+    college_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    # campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+
+    college_unit_filter = request.GET.get('college_name', None)
+    college_unit_cond = None if not college_unit_filter or college_unit_filter == "All" else college_unit_filter
+    campus_filter_qs = CampusPartner.objects.all() if not college_unit_filter or college_unit_filter == "All" else CampusPartner.objects.filter(college_name_id=college_unit_filter)
+    campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    community_type_filter = request.GET.get('community_type', None)
+    community_type_cond = None if not community_type_filter or community_type_filter == "All" else community_type_filter
+
+    academic_year_filter = request.GET.get('academic_year', None)
+    acad_years = AcademicYear.objects.all()
+    yrs = []
+    current_year = datetime.datetime.now().year
+    current_month = datetime.datetime.now().month
+    a_year = f"{str(current_year - 1)}-{str(current_year)[-2:]}" if current_month > 7 else f"{str(current_year - 2)}-{str(current_year - 1)[-2:]}"
+
+    for e in acad_years:
+        yrs.append(e.id)
+
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+        default_yr_id = acad_year
+    except AcademicYear.DoesNotExist:
+        default_yr_id = max(yrs)
+    max_yr_id = max(yrs)
+
+    if academic_year_filter is None or academic_year_filter == '':
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
+    elif academic_year_filter == "All":
+        academic_start_year_cond = int(max_yr_id)
+        academic_end_year_cond = 1
+    else:
+        academic_start_year_cond = int(academic_year_filter)
+        academic_end_year_cond = int(academic_year_filter)
+
+    campus_partner_filter = request.GET.get('campus_partner', None)
+    campus_partner_cond = None if not campus_partner_filter or campus_partner_filter == "All" else campus_partner_filter
+    campus_id = -1 if not campus_partner_filter or campus_partner_filter == "All" else int(campus_partner_filter)
+
+    mission_type_filter = request.GET.get('mission', None)
+    mission_type_cond = None if not mission_type_filter or mission_type_filter == "All" else mission_type_filter
+
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': "All"})
+
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    cec_comm_part_cond, cec_camp_part_cond = None, None
+
+    if cec_part_selection == "CURR_COMM":
+        cec_comm_part_cond = 'Current'
+    elif cec_part_selection == "FORMER_COMM":
+        cec_comm_part_cond = 'Former'
+    elif cec_part_selection == "FORMER_CAMP":
+        cec_camp_part_cond = 'Former'
+    elif cec_part_selection == "CURR_CAMP":
+        cec_camp_part_cond = 'Current'
+
+    acadYear_query = "p.academic_year_id <= %s" if academic_year_filter == "All" else "p.academic_year_id = %s"
+    # params = [community_type_cond, cec_comm_part_cond, mission_type_cond,  campus_partner_cond, college_unit_cond,
+    #           academic_start_year_cond, academic_end_year_cond, cec_camp_part_cond]
+    query = """
+        WITH eng_type_filter AS (
+            SELECT 
+                p.engagement_type_id AS eng_id,
+                COUNT(DISTINCT p.project_name) AS Projects,
+                ARRAY_AGG(DISTINCT p.id) AS projects_id,
+                COUNT(DISTINCT pcomm.community_partner_id) AS CommPartners,
+                ARRAY_AGG(DISTINCT pcomm.community_partner_id) AS CommPartners_id,
+                COUNT(DISTINCT pcamp.campus_partner_id) AS CampPartners
+            FROM projects_engagementtype e
+            JOIN projects_project p ON p.engagement_type_id = e.id
+            LEFT JOIN projects_projectcampuspartner pcamp ON p.id = pcamp.project_name_id
+            LEFT JOIN projects_projectcommunitypartner pcomm ON p.id = pcomm.project_name_id
+            LEFT JOIN partners_communitypartner comm ON pcomm.community_partner_id = comm.id
+            LEFT JOIN projects_status s ON p.status_id = s.id
+            LEFT JOIN projects_projectmission pm ON p.id = pm.project_name_id AND LOWER(pm.mission_type) = 'primary'
+            LEFT JOIN partners_campuspartner c ON pcamp.campus_partner_id = c.id
+            WHERE s.name != 'Drafts' AND """ + acadYear_query + """
+            AND (%s IS NULL OR pm.mission_id::TEXT LIKE %s)
+            AND (%s IS NULL OR pcamp.campus_partner_id::TEXT LIKE %s)
+            AND (%s IS NULL OR c.college_name_id::TEXT LIKE %s)
+            AND (%s IS NULL OR c.cec_partner_status_id IN (SELECT id FROM partners_cecpartnerstatus WHERE name LIKE %s))
+            AND (%s IS NULL OR comm.community_type_id::TEXT LIKE %s)
+            AND (%s IS NULL OR comm.cec_partner_status_id IN (SELECT id FROM partners_cecpartnerstatus WHERE name LIKE %s))
+            GROUP BY eng_id
+        )
+        SELECT DISTINCT 
+            eng.name AS eng_type,
+            eng.description AS eng_desc,
+            COALESCE(eng_type_filter.Projects, 0) AS proj,
+            eng_type_filter.projects_id AS proj_ids,
+            COALESCE(eng_type_filter.CommPartners, 0) AS comm,
+            eng_type_filter.CommPartners_id AS comm_id,
+            COALESCE(eng_type_filter.CampPartners, 0) AS camp
+        FROM projects_engagementtype eng
+        LEFT JOIN eng_type_filter ON eng.id = eng_type_filter.eng_id
+        GROUP BY eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp
+        ORDER BY eng_type;
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, [
+            academic_start_year_cond,
+            mission_type_cond, mission_type_cond,
+            campus_partner_cond, campus_partner_cond,
+            college_unit_cond, college_unit_cond,
+            cec_camp_part_cond, cec_camp_part_cond,
+            community_type_cond, community_type_cond,
+            cec_comm_part_cond, cec_comm_part_cond,
+        ])
+        results = cursor.fetchall()
+        for obj in results:
+            comm_ids = obj[5]
+            proj_ids = obj[3]
+            proj_idList = ''
+            comm_idList = ''
+            sum_uno_students = 0
+            sum_uno_hours = 0
+            if proj_ids is not None:
+                name_count = 0
+                if None in proj_ids:
+                    proj_ids.pop(-1)
+
+                if len(proj_ids) > 0:
+                    for i in proj_ids:
+                        cursor.execute(
+                            "SELECT p.total_uno_students, p.total_uno_hours FROM projects_project p WHERE p.id = %s",
+                            (str(i),))
+
+                        result = cursor.fetchall()  # Fetch the results once and store them in a variable
+
+                        for obj1 in result:  # Iterate over the results variable
+                            sum_uno_students += obj1[0]
+                            sum_uno_hours += obj1[1]
+
+                        proj_idList += str(i)
+                        if name_count < len(proj_ids) - 1:
+                            proj_idList += ","
+                            name_count += 1
+
+            if comm_ids is not None:
+                name_count = 0
+                if None in comm_ids:
+                    comm_ids.pop(-1)
+
+                if len(comm_ids) > 0:
+                    for i in comm_ids:
+                        comm_idList = comm_idList + str(i)
+                        if name_count < len(comm_ids) - 1:
+                            comm_idList = comm_idList + str(",")
+                            name_count = name_count + 1
+
+            data_list.append({
+                "engagement_name": obj[0], "description": obj[1], "project_count": obj[2], 
+                "project_id_list": proj_idList, "community_count": obj[4], 
+                "comm_id_list": comm_idList, "campus_count": obj[6], 
+                "total_uno_students": sum_uno_students, "total_uno_hours": sum_uno_hours
+            })
 
     return render(request, 'reports/EngagementTypeReport.html',
                   {'college_filter': college_partner_filter, 'missions_filter': missions_filter,

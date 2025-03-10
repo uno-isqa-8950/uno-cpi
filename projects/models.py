@@ -53,7 +53,7 @@ class Project(models.Model):
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL,
                                    related_name='Projects_updated_by')
     created_date = models.DateTimeField(default=timezone.now)
-    updated_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
     campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
     project_type = models.CharField(max_length=20, choices=project_choices, default='Project')
     subcategory = models.ManyToManyField('SubCategory')

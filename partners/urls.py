@@ -5,7 +5,7 @@ app_name = 'partners'
 
 urlpatterns = [
 #     path('register-Campus-Partner/', views.registerCampusPartner, name='registerCampusPartner'),
-#     path('register-Community-Partner/', views.registerCommunityPartner, name='registerCommunityPartner'),
+    path('register-Community-Partner/', views.registerCommunityPartner, name='registerCommunityPartner'),
     path('profile/userprofile/', views.userProfile, name='userprofile'),
     path('profile/userprofileupdate/', views.userProfileUpdate, name='userprofileupdate'),
     path('profile/orgprofile/', views.orgProfile, name='orgprofile'),

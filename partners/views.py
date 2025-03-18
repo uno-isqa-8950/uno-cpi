@@ -81,7 +81,7 @@ def registerCampusPartner(request):
                   {'campus_partner_form': campus_partner_form, 'data_definition': data_definition,
                    'formset': formset, 'colleges': colleges})
 
-
+@login_required()
 def registerCommunityPartner(request):
     # ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
     comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form=CommunityMissionFormset)

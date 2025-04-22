@@ -36,12 +36,12 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('account/', include('account.urls')),
     path('', include('projects.urls')),
+    path('explorer/', include('explorer.urls')),
     re_path(r'^cms/', include(wagtailadmin_urls)),
     re_path(r'^documents/', include(wagtaildocs_urls)),
     re_path(r'^pages/', include(wagtail_urls)),
     re_path(r'', include(wagtail_urls)),
     path(r'session_security/', include('session_security.urls')),
-
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

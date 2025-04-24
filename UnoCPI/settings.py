@@ -29,7 +29,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 DEBUG = os.environ.get('DEBUG', False)
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['cepi.unomaha.edu', 'uno-cpi-cat.herokuapp.com', 'uno-cpi-dev.herokuapp.com']
 
 
 # Application definition
@@ -257,6 +257,6 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 try:
-    from local_settings import *
+    from UnoCPI.local_settings import *
 except ImportError:
     pass

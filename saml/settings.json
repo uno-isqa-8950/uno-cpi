@@ -1,6 +1,6 @@
 {
     "strict": true,
-    "debug": true,
+    "debug": false,
     "sp": {
         "entityId": "http://localhost:8000/account/metadata/",
         "assertionConsumerService": {

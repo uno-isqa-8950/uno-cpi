@@ -584,6 +584,7 @@ def project_partner_info_public(request):
     k12_stu_total = 0
     k12_hr_total = 0
     data_list = []
+    params = []
 
     year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
 
@@ -688,37 +689,40 @@ def project_partner_info_public(request):
 				   left join projects_projectcommunitypartner pcp on pcp.project_name_id = p.id \
                    left join partners_communitypartner cp on cp.id = pcp.community_partner_id \
                    where  s.name != 'Drafts'  and " \
-                     "((p.academic_year_id =" + str(academic_start_year_cond) + "))"
+                     "((p.academic_year_id = %s))"
+    params.append(str(academic_start_year_cond))
 
     project_clause_query = " "
     community_clause_query = " "
 
     if eng_type_cond != '%':
-        project_clause_query += " and p.engagement_type_id::text like '" + eng_type_cond + "'"
-        community_clause_query += " and p.engagement_type_id::text like '" + eng_type_cond + "'"
+        project_clause_query += " and p.engagement_type_id::text like %s"
+        community_clause_query += " and p.engagement_type_id::text like %s"
 
     if campus_partner_cond != '%':
-        project_clause_query += " and pcamp.campus_partner_id::text like '" + campus_partner_cond + "'"
-        community_clause_query += " and pcamp.campus_partner_id::text like '" + campus_partner_cond + "'"
+        project_clause_query += " and pcamp.campus_partner_id::text like %s"
+        community_clause_query += " and pcamp.campus_partner_id::text like %s"
 
     if college_unit_cond != '%':
-        project_clause_query += " and c.college_name_id::text like '" + college_unit_cond + "'"
-        community_clause_query += " and c.college_name_id::text like '" + college_unit_cond + "'"
+        project_clause_query += " and c.college_name_id::text like %s"
+        community_clause_query += " and c.college_name_id::text like %s"
 
     if cec_camp_part_cond != '%':
-        project_clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
-        community_clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
+        project_clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like %s)"
+        community_clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like %s)"
 
     if community_type_cond != '%':
-        project_clause_query += " and cp.community_type_id::text like '" + community_type_cond + "'"
-        community_clause_query += " and cp.community_type_id::text like '" + community_type_cond + "'"
+        project_clause_query += " and cp.community_type_id::text like %s"
+        community_clause_query += " and cp.community_type_id::text like %s"
 
     if cec_comm_part_cond != '%':
-        project_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
-        community_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
+        project_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like %s)"
+        community_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like %s)"
 
-    peoject_query_end = project_start + project_clause_query + " group by mission_id \
+    project_query_end = project_start + project_clause_query + " group by mission_id \
                                                                 order by mission_id),"
+    if project_clause_query != " ":
+        params.extend([eng_type_cond, campus_partner_cond, college_unit_cond, cec_camp_part_cond, community_type_cond, cec_comm_part_cond])
 
     community_start = "mission_comm_filter as (select CommMission.mission_area_id mission_id \
 			        , count(distinct pcp.community_partner_id) CommParnters \
@@ -731,9 +735,10 @@ def project_partner_info_public(request):
                     left join partners_campuspartner c on pcamp.campus_partner_id = c.id \
                     left join projects_status s on  p.status_id = s.id \
                     where s.name != 'Drafts' \
-                    and ((p.academic_year_id <=" + str(academic_start_year_cond) + "))"
+                    and ((p.academic_year_id <= %s))"
+    params.append(str(academic_start_year_cond))
 
-    query_end = peoject_query_end + community_start + community_clause_query + " group by mission_id \
+    query_end = project_query_end + community_start + community_clause_query + " group by mission_id \
 					order by mission_id) \
                     Select hm.mission_name mission_area \
                     , hm.description description \
@@ -748,8 +753,11 @@ def project_partner_info_public(request):
                     left join mission_comm_filter on hm.id = mission_comm_filter.mission_id \
                     group by mission_area, description, proj, proj_ids, camp, comm, comm_ids, color \
                     order by mission_area;"
+    
+    if community_clause_query != " ":
+        params.extend([eng_type_cond, campus_partner_cond, college_unit_cond, cec_camp_part_cond, community_type_cond, cec_comm_part_cond])
 
-    cursor.execute(query_end)
+    cursor.execute(query_end, params)
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     for obj in cursor.fetchall():
